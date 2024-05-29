@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ge-health-care",
-    "slug": "ge-health-care",
+    "name": "Ge-frontend",
+    "slug": "Ge-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
