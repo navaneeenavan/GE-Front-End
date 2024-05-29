@@ -1,65 +1,81 @@
+import { StyleSheet, View } from "react-native";
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { BottomNavigation } from "react-native-paper";
+import Chatroom from "./Chatroom";
+import two from "./two";
+import Forums from "./Forums";
+import TabOneScreen from ".";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import Colors from "@/constants/Colors";
-import { useColorScheme } from "@/components/useColorScheme";
-import { useClientOnlyValue } from "@/components/useClientOnlyValue";
+const _layout = () => {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: "one", title: "home", icon: "home" },
+    { key: "two", title: "account", icon: "account" },
+    { key: "three", title: "magnify", icon: "magnify" },
+    { key: "four", title: "chat", icon: "chat" },
+  ]);
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const renderScene = BottomNavigation.SceneMap({
+    one: TabOneScreen,
+    two: two,
+    three: Forums,
+    four: Chatroom,
+  });
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          height: 60,
-          top: -10,
-          borderRadius: 50,
-          paddingBottom: 5,
-          width: "95%",
-          marginLeft: 10,
-        },
+    <BottomNavigation
+      labeled={false}
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+      sceneAnimationType="shifting"
+      keyboardHidesNavigationBar={true}
+      style={{
+        top: -10,
+        borderRadius: 30,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        margin: 10,
+        backgroundColor: "transparent",
       }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: "Patients",
-          tabBarIcon: ({ color }) => <TabBarIcon name="users" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="Forums"
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="Chatroom"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="comments" color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+      renderIcon={({ route, focused, color }) => (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "transparent",
+          }}
+        >
+          <View
+            style={[
+              {
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 25,
+                width: focused ? 50 : 34,
+                height: focused ? 50 : 34,
+                backgroundColor: focused ? "#3774f2" : "transparent",
+                marginTop: focused ? -10 : -4,
+              },
+            ]}
+          >
+            <Icon
+              name={route.title || ""}
+              size={34}
+              color={focused ? "#ffffff" : "#000000"}
+            />
+          </View>
+        </View>
+      )}
+      barStyle={{
+        backgroundColor: "rgba(255,255,255,0.5)",
+      }}
+    />
   );
-}
+};
+
+export default _layout;
+
+const styles = StyleSheet.create({});
