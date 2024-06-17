@@ -4,22 +4,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   ArrowUpRightIcon,
   BellAlertIcon,
-  BellIcon,
   BoltIcon,
   CalendarIcon,
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   CubeTransparentIcon,
   EllipsisHorizontalIcon,
-  PresentationChartBarIcon,
-  UserIcon,
   UsersIcon,
 } from "react-native-heroicons/outline";
 import tw from "twrnc";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  TabOneScreen: undefined;
+  Layout2: undefined;
+};
+
+type TabOneScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "TabOneScreen"
+>;
 
 export default function TabOneScreen() {
+  const navigation = useNavigation<TabOneScreenNavigationProp>();
   return (
     <View style={tw`flex-1 bg-[#F2F2F2] mt-5`}>
       <SafeAreaView style={tw`px-0.5`}>
@@ -75,16 +83,32 @@ export default function TabOneScreen() {
                   My Patients
                 </Text>
               </View>
-              <View style={tw`w-2/5 bg-white h-40 rounded-[50px]`}>
-                <View style={tw`mt-5 ml-5 bg-white`}>
-                  <CubeTransparentIcon size={35} color={"#3774f2"} />
-                </View>
+              <TouchableOpacity
+                style={{
+                  width: "100%",
+                  height: 200,
+                  borderRadius: 50,
+                  backgroundColor: "#f2f2f2",
+                  flexDirection: "column",
+                }}
+                onPress={() => {
+                  navigation.navigate("Layout2");
+                }}
+              >
+                <View style={tw`w-2/5 bg-white h-40 rounded-[50px]`}>
+                  <View style={tw`mt-5 ml-5 bg-white`}>
+                    <CubeTransparentIcon size={35} color={"#3774f2"} />
+                  </View>
 
-                <Text style={tw`text-lg  mt-14 ml-7 font-semi-bold text-black`}>
-                  Forum
-                </Text>
-              </View>
+                  <Text
+                    style={tw`text-lg  mt-14 ml-7 font-semi-bold text-black`}
+                  >
+                    Forum
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
+
             <View style={tw`flex flex-row bg-[#f2f2f2] mt-2 gap-2`}>
               <View
                 style={{
@@ -200,8 +224,9 @@ export default function TabOneScreen() {
                   <Text
                     style={{
                       color: "black",
-                      fontSize: 20,
+                      fontSize: 18,
                       marginLeft: 10,
+                      marginTop: -20,
                       fontFamily: "sans-serif",
                     }}
                   >
