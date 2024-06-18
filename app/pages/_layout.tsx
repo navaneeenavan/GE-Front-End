@@ -6,11 +6,16 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Schedules from "./Schedules";
 import Forum from "./Forum";
 import MyPatients from "./MyPatients";
-import ChatRoom from "./ChatRoom";
 import Diagnosis from "./Diagnosis";
-import Home from "../(tabs)/index"
+import HomePage from "./HomePage";
 const Tabs = createBottomTabNavigator();
-import {HomeIcon}from  "react-native-heroicons/outline";
+import {
+  HomeIcon,
+  UserGroupIcon,
+  ChatBubbleBottomCenterTextIcon,
+  BeakerIcon,
+  RectangleStackIcon,
+} from "react-native-heroicons/outline";
 const Pageslayout = () => {
   return (
     <Tabs.Navigator
@@ -28,8 +33,8 @@ const Pageslayout = () => {
       }}
     >
       <Tabs.Screen
-        name="Home"
-        component={Home}
+        name="Schedule"
+        component={Schedules}
         options={{
           tabBarIcon: ({ focused, size, color }) => {
             return (
@@ -43,15 +48,13 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <HomeIcon
-                  size={34}
-                  color={color}
-                />
+                <RectangleStackIcon size={34} color={color} />
               </View>
             );
           },
         }}
       />
+
       <Tabs.Screen
         name="MyPatients"
         component={MyPatients}
@@ -68,11 +71,29 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <MaterialCommunityIcons
-                  name="account-group"
-                  size={34}
-                  color={color}
-                />
+                <UserGroupIcon size={34} color={color} />
+              </View>
+            );
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="Home"
+        component={HomePage}
+        options={{
+          tabBarIcon: ({ focused, size, color }) => {
+            return (
+              <View
+                style={{
+                  backgroundColor: focused ? "#b8dfb4" : "#E8EFEC",
+                  width: 60,
+                  height: 60,
+                  borderRadius: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <HomeIcon size={34} color={color} />
               </View>
             );
           },
@@ -94,34 +115,13 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <MaterialCommunityIcons name="forum" size={34} color={color} />
+                <ChatBubbleBottomCenterTextIcon size={34} color={color} />
               </View>
             );
           },
         }}
       />
-      <Tabs.Screen
-        name="ChatRoom"
-        component={ChatRoom}
-        options={{
-          tabBarIcon: ({ focused, size, color }) => {
-            return (
-              <View
-                style={{
-                  backgroundColor: focused ? "#b8dfb4" : "#E8EFEC",
-                  width: 60,
-                  height: 60,
-                  borderRadius: 50,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <MaterialCommunityIcons name="chat" size={34} color={color} />
-              </View>
-            );
-          },
-        }}
-      />
+
       <Tabs.Screen
         name="Profile"
         component={Diagnosis}
@@ -138,11 +138,7 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <MaterialCommunityIcons
-                  name="microscope"
-                  size={34}
-                  color={color}
-                />
+                <BeakerIcon size={34} color={color} />
               </View>
             );
           },

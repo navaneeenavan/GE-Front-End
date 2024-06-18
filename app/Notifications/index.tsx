@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const ChatRoom = () => {
+const index = () => {
   return (
     <View>
-      <Text>ChatRoom</Text>
+      <Text>index</Text>
     </View>
   );
 };
 
-export default ChatRoom;
+export default index;
 
 const styles = StyleSheet.create({});
