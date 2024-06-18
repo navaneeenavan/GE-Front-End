@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import {
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Header, Button } from "react-native-elements";
+import { useNavigation } from "@react-navigation/native";
 
 const topics = [
   {
@@ -89,18 +91,26 @@ const ForumScreen = () => {
         data={topics}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.topicContainer}>
-            <Image source={{ uri: item.avatar }} style={styles.avatar} />
-            <View style={styles.textContainer}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.author}>{item.author}</Text>
-              <Text style={styles.replies}>{item.replies} Replies</Text>
-              <Text style={styles.date}>{item.date}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/Forums");
+            }}
+          >
+            <View style={styles.topicContainer}>
+              <Image source={{ uri: item.avatar }} style={styles.avatar} />
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.author}>{item.author}</Text>
+                <Text style={styles.replies}>{item.replies} Replies</Text>
+                <Text style={styles.date}>{item.date}</Text>
+              </View>
+              <TouchableOpacity>
+                <Text style={item.liked ? styles.liked : styles.notLiked}>
+                  ♥
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity>
-              <Text style={item.liked ? styles.liked : styles.notLiked}>♥</Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
