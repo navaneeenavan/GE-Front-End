@@ -16,12 +16,12 @@ import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { color } from "react-native-elements/dist/helpers";
+
 import { router } from "expo-router";
 
 type RootStackParamList = {
   TabOneScreen: undefined;
-  Layout2: undefined;
+  Layout2: { screen: string };
   ChatRoom: undefined;
 };
 
@@ -104,7 +104,7 @@ export default function TabOneScreen() {
                   flexDirection: "column",
                 }}
                 onPress={() => {
-                  navigation.push("Layout2");
+                  navigation.push("Layout2", { screen: "MyPatients" });
                 }}
               >
                 <View style={tw`w-3/5 bg-white h-40 rounded-[50px] px-2`}>
@@ -130,7 +130,7 @@ export default function TabOneScreen() {
                   marginLeft: -120,
                 }}
                 onPress={() => {
-                  navigation.navigate("Layout2");
+                  navigation.navigate("Layout2", { screen: "Forum" });
                 }}
               >
                 <View style={tw`w-2/5 bg-white h-40 rounded-[50px]`}>
@@ -153,7 +153,7 @@ export default function TabOneScreen() {
                   width: "100%",
                 }}
                 onPress={() => {
-                  navigation.navigate("Layout2");
+                  navigation.navigate("Layout2", { screen: "Schedule" });
                 }}
               >
                 <View

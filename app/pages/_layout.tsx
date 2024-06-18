@@ -8,6 +8,15 @@ import Forum from "./Forum";
 import MyPatients from "./MyPatients";
 import Diagnosis from "./Diagnosis";
 import HomePage from "./HomePage";
+
+interface BottomTabParamList {
+  Home: undefined;
+  MyPatients: undefined;
+  Schedule: undefined;
+  Forum: undefined;
+  Profile: undefined;
+}
+
 const Tabs = createBottomTabNavigator();
 import {
   HomeIcon,
@@ -16,6 +25,7 @@ import {
   BeakerIcon,
   RectangleStackIcon,
 } from "react-native-heroicons/outline";
+
 const Pageslayout = () => {
   return (
     <Tabs.Navigator
