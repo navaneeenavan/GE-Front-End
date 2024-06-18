@@ -15,10 +15,13 @@ import {
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { color } from "react-native-elements/dist/helpers";
 
 type RootStackParamList = {
   TabOneScreen: undefined;
   Layout2: undefined;
+  ChatRoom: undefined;
 };
 
 type TabOneScreenNavigationProp = NativeStackNavigationProp<
@@ -29,7 +32,7 @@ type TabOneScreenNavigationProp = NativeStackNavigationProp<
 export default function TabOneScreen() {
   const navigation = useNavigation<TabOneScreenNavigationProp>();
   return (
-    <View style={tw`flex-1 bg-[#F2F2F2] mt-5`}>
+    <View style={tw`flex-1 bg-[#F2F2F2] mt-5 mx-2`}>
       <SafeAreaView style={tw`px-0.5`}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={tw`flex flex-row justify-between bg-[#f2f2f2] gap-1`}>
@@ -51,7 +54,9 @@ export default function TabOneScreen() {
               <TouchableOpacity
                 style={tw`h-16 w-16 bg-white rounded-full justify-center items-center flex flex-row`}
               >
-                <EllipsisHorizontalIcon size={45} color={"#3774f2"} />
+                <MaterialCommunityIcons name="chat" size={30}  color={"#3774f2"}  onPress={() => {
+                  navigation.navigate("ChatRoom");
+                }}/>
               </TouchableOpacity>
             </View>
           </View>

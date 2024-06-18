@@ -8,8 +8,9 @@ import Forum from "./Forum";
 import MyPatients from "./MyPatients";
 import ChatRoom from "./ChatRoom";
 import Diagnosis from "./Diagnosis";
+import Home from "../(tabs)/index"
 const Tabs = createBottomTabNavigator();
-
+import {HomeIcon}from  "react-native-heroicons/outline";
 const Pageslayout = () => {
   return (
     <Tabs.Navigator
@@ -27,8 +28,8 @@ const Pageslayout = () => {
       }}
     >
       <Tabs.Screen
-        name="Schedules"
-        component={Schedules}
+        name="Home"
+        component={Home}
         options={{
           tabBarIcon: ({ focused, size, color }) => {
             return (
@@ -42,8 +43,7 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <MaterialCommunityIcons
-                  name="calendar"
+                <HomeIcon
                   size={34}
                   color={color}
                 />
