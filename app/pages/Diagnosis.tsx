@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { router } from "expo-router";
 
-const MyPatients = () => {
+const Diagnosis = () => {
   const [SearchQuery, setSearchQuery] = React.useState("");
   const patientsList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const PatientData = {
@@ -94,7 +94,7 @@ const MyPatients = () => {
       >
         <TouchableOpacity
           onPress={() => {
-            router.push("/Details");
+            router.push("/Diagnosis");
           }}
         >
           <View style={tw`flex flex-row items-center mt-[-25]`}>
@@ -124,6 +124,6 @@ const MyPatients = () => {
   }
 };
 
-export default MyPatients;
+export default Diagnosis;
 
 const styles = StyleSheet.create({});

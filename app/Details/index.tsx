@@ -1,274 +1,249 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React, { useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import tw, { style } from "twrnc";
-import { Appbar } from "react-native-paper";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faThermometerHalf } from "@fortawesome/free-solid-svg-icons";
-import { faDroplet } from "@fortawesome/free-solid-svg-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { ScrollView } from "react-native";
 
-interface PatientsCardProps {
-  name: string;
-  image_uri: string;
-  age: number;
-  gender: string;
-  HealthCondition: string;
-  CriticalityScore: number;
-  Criticality: string;
-}
-
-interface StaffsCardProps {
-  name: string;
-  image_uri: string;
-  StaffID: number;
-}
-
-const HeartRateIcon = () => {
-  return <FontAwesomeIcon icon={faHeart} size={24} color="red" />;
-};
-
-const TemperatureIcon = () => {
-  return <FontAwesomeIcon icon={faThermometerHalf} size={24} color="orange" />;
-};
-
-const BloodPressureIcon = () => {
-  return <FontAwesomeIcon icon={faDroplet} size={24} color="blue" />;
-};
-
-function PatientsCard({
-  name,
-  image_uri,
-  age,
-  gender,
-  HealthCondition,
-  CriticalityScore,
-  Criticality,
-}: PatientsCardProps) {
-  return (
-    <SafeAreaView
-      style={tw`pb-[10] pl-[10] pr-[10]  w-5/5 bg-[#FFF6F6] rounded-xl shadow`}
-    >
-      <View style={tw`flex flex-row items-center mt-[-25]`}>
-        <Image source={{ uri: image_uri }} style={tw`w-16 h-16 rounded-full`} />
-        <View style={tw`ml-4 flex-1`}>
-          <Text style={tw`text-lg font-semibold text-black`}>{name}</Text>
-          <Text style={tw`text-gray-700 mt-1`}>
-            Age: {age} {gender}
-          </Text>
-          <Text style={tw`text-gray-700`}>{HealthCondition}</Text>
-          <Text style={tw`text-gray-700`}>
-            Criticality Score: {CriticalityScore}
-          </Text>
-        </View>
-        <View style={tw`bg-white border border-red-500 rounded-full px-3 py-1`}>
-          <Text style={tw`text-red-500 font-semibold`}>{Criticality}</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-  );
-}
-function StaffsCard({ name, StaffID, image_uri }: StaffsCardProps) {
-  return (
-    <SafeAreaView
-      style={tw`pb-[10] pl-[10] pr-[10]  w-5/5 bg-[#FFF6F6] rounded-xl shadow`}
-    >
-      <View style={tw`flex flex-row items-center mt-[-25]`}>
-        <Image source={{ uri: image_uri }} style={tw`w-16 h-16 rounded-full`} />
-        <View style={tw`ml-4 flex-1`}>
-          <Text style={tw`text-lg font-semibold text-black`}>{name}</Text>
-          <Text style={tw`text-gray-700 mt-1`}>Staff ID: {StaffID}</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-  );
-}
-
-const PatientData = {
-  name: "Sarah Chang",
-  age: 39,
-  gender: "Female",
-  HealthCondition: "Severe Sepsis",
-  CriticalityScore: 9.4,
-  Criticality: "Critical",
-  image_uri: "https://via.placeholder.com/60",
-};
-
-const nurseData = {
-  name: "Nurse 1",
-  StaffID: 1,
-  image_uri: "https://via.placeholder.com/60",
-};
-
-const index = () => {
+const ResourceAllocationScreen = () => {
   const navigation = useNavigation();
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
 
-  const array = [1, 2, 3];
-  const Equipments = [
-    "ICU ROOM",
-    "VENTILATOR",
-    "IV PUMP",
-    "ANTIBIOTICS",
-    "VASOPRESSORS",
-  ];
   return (
-    <>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Resource Allocation" />
-      </Appbar.Header>
-      <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical>
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            paddingVertical: 20,
-            paddingHorizontal: 20,
-            backgroundColor: "#F2F2F2",
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.header}>
+        <Icon
+          name="arrow-back"
+          size={24}
+          onPress={() => {
+            navigation.goBack();
           }}
-        >
-          <PatientsCard
-            name={PatientData.name}
-            image_uri={PatientData.image_uri}
-            age={PatientData.age}
-            gender={PatientData.gender}
-            HealthCondition={PatientData.HealthCondition}
-            CriticalityScore={PatientData.CriticalityScore}
-            Criticality={PatientData.Criticality}
+        />
+        <Text style={styles.headerText}>Resource allocation</Text>
+      </View>
+      <View style={styles.patientContainer}>
+        <Image
+          source={{ uri: "https://via.placeholder.com/100" }}
+          style={styles.patientImage}
+        />
+        <View style={styles.patientInfo}>
+          <Text style={styles.patientName}>Sarah Chang</Text>
+          <Text style={styles.patientDetails}>Age: 39 Female</Text>
+          <Text style={styles.patientDetails}>Severe Sepsis</Text>
+          <Text style={styles.patientDetails}>Criticality Score: 9.4</Text>
+        </View>
+        <View style={styles.criticalBadgeContainer}>
+          <Text style={styles.criticalBadge}>Critical</Text>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Staffs</Text>
+        <Icon
+          name="edit"
+          size={20}
+          containerStyle={styles.editIcon}
+          onPress={() => {
+            /* Add edit action */
+          }}
+        />
+        <View style={styles.itemContainer}>
+          <Image
+            source={{ uri: "https://via.placeholder.com/50" }}
+            style={styles.itemImage}
           />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              gap: 50,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                marginTop: 20,
-                marginBottom: 10,
-              }}
-            >
-              Staffs
-            </Text>
-            <MaterialCommunityIcons
-              name="pencil-outline"
-              size={24}
-              color="black"
-              style={{ marginTop: 20 }}
-            />
-          </View>
-          <View
-            style={{
-              gap: 10,
-              width: "100%",
-            }}
-          >
-            {array.map((item, index) => (
-              <StaffsCard
-                key={index}
-                name={nurseData.name}
-                image_uri={nurseData.image_uri}
-                StaffID={nurseData.StaffID}
-              />
-            ))}
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              gap: 100,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                marginTop: 20,
-
-                marginBottom: 10,
-              }}
-            >
-              Equipments
-            </Text>
-            <MaterialCommunityIcons
-              name="pencil-outline"
-              size={24}
-              color="black"
-              style={{ marginTop: 20 }}
-            />
-          </View>
-          <View
-            style={{
-              gap: 10,
-              width: "100%",
-            }}
-          >
-            {Equipments.map((item, index) => renderEquipmentTile(item, index))}
+          <View style={styles.itemInfo}>
+            <Text style={styles.itemText}>Nurse: Ananya Chavan</Text>
+            <Text style={styles.itemSubText}>Staff ID: 22591</Text>
           </View>
         </View>
-      </ScrollView>
-    </>
+        <View style={styles.itemContainer}>
+          <Image
+            source={{ uri: "https://via.placeholder.com/50" }}
+            style={styles.itemImage}
+          />
+          <View style={styles.itemInfo}>
+            <Text style={styles.itemText}>Nurse: Vivaan Kapoor</Text>
+            <Text style={styles.itemSubText}>Staff ID: 24932</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Equipment</Text>
+        <Icon
+          name="edit"
+          size={20}
+          containerStyle={styles.editIcon}
+          onPress={() => {
+            /* Add edit action */
+          }}
+        />
+        <View style={styles.itemContainer}>
+          <Icon
+            name="bed"
+            type="font-awesome-5"
+            size={24}
+            style={styles.itemIcon}
+          />
+          <Text style={styles.itemText}>ICU Room 1</Text>
+        </View>
+        <View style={styles.itemContainer}>
+          <Icon
+            name="heartbeat"
+            type="font-awesome-5"
+            size={24}
+            style={styles.itemIcon}
+          />
+          <Text style={styles.itemText}>Ventilator</Text>
+        </View>
+        <View style={styles.itemContainer}>
+          <Icon
+            name="prescription-bottle"
+            type="font-awesome-5"
+            size={24}
+            style={styles.itemIcon}
+          />
+          <Text style={styles.itemText}>IV Pump</Text>
+        </View>
+        <View style={styles.itemContainer}>
+          <Icon
+            name="pills"
+            type="font-awesome-5"
+            size={24}
+            style={styles.itemIcon}
+          />
+          <Text style={styles.itemText}>Antibiotics</Text>
+        </View>
+        <View style={styles.itemContainer}>
+          <Icon
+            name="syringe"
+            type="font-awesome-5"
+            size={24}
+            style={styles.itemIcon}
+          />
+          <Text style={styles.itemText}>Vasopressors</Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
-export default index;
-
 const styles = StyleSheet.create({
-  tileStyle: {
+  container: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
+  contentContainer: {
+    paddingVertical: 60,
+  },
+  header: {
     flexDirection: "row",
-    width: "100%",
-    padding: 20,
-    paddingLeft: 40,
-    gap: 20,
-    backgroundColor: "#FFF6F6",
-    borderRadius: 20,
-    marginBottom: 10,
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#c1e0b5",
+  },
+  headerText: {
+    marginLeft: 8,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  patientContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    margin: 16,
+    padding: 16,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#dcdcdc",
+  },
+  patientImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 16,
+  },
+  patientInfo: {
+    flex: 1,
+  },
+  patientName: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  patientDetails: {
+    fontSize: 14,
+    color: "#666",
+  },
+  criticalBadgeContainer: {
+    alignSelf: "flex-start",
+  },
+  criticalBadge: {
+    backgroundColor: "#f8d7da",
+    color: "#c0392b",
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#c0392b",
+    fontWeight: "bold",
+  },
+  section: {
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  editIcon: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+  },
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 12,
+    marginBottom: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#dcdcdc",
+  },
+  itemImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 16,
+  },
+  itemInfo: {
+    flex: 1,
+  },
+  itemText: {
+    fontSize: 16,
+  },
+  itemSubText: {
+    fontSize: 14,
+    color: "#666",
+  },
+  itemIcon: {
+    marginRight: 16,
   },
 });
 
-{
-  /* <View style={styles.tileStyle}>
-            <HeartRateIcon />
-            <Text style={{ fontSize: 18 }}>98 bpm</Text>
-          </View>
-          <View style={styles.tileStyle}>
-            <TemperatureIcon />
-            <Text style={{ fontSize: 18 }}>36.5 C</Text>
-          </View>
-          <View style={styles.tileStyle}>
-            <BloodPressureIcon />
-            <Text style={{ fontSize: 18 }}>120/80 mmHg</Text>
-          </View>
-          <TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                marginTop: 20,
-                marginBottom: 10,
-              }}
-            >
-              Analysis {">"}
-            </Text>
-          </TouchableOpacity>   
-        </View> */
-}
-function renderEquipmentTile(item: string, index: number) {
-  return (
-    <View style={styles.tileStyle}>
-      <HeartRateIcon />
-      <Text style={{ fontSize: 18 }}>{item}</Text>
-    </View>
-  );
-}
+export default ResourceAllocationScreen;

@@ -7,7 +7,7 @@ import Schedules from "./Schedules";
 import Forum from "./Forum";
 import MyPatients from "./MyPatients";
 import ChatRoom from "./ChatRoom";
-import Profile from "./Profile";
+import Diagnosis from "./Diagnosis";
 const Tabs = createBottomTabNavigator();
 
 const Pageslayout = () => {
@@ -124,7 +124,7 @@ const Pageslayout = () => {
       />
       <Tabs.Screen
         name="Profile"
-        component={Profile}
+        component={Diagnosis}
         options={{
           tabBarIcon: ({ focused, size, color }) => {
             return (
@@ -139,7 +139,7 @@ const Pageslayout = () => {
                 }}
               >
                 <MaterialCommunityIcons
-                  name="account"
+                  name="microscope"
                   size={34}
                   color={color}
                 />
