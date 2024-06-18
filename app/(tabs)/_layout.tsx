@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabOneScreen from ".";
 import PagesLayout from "../pages/_layout";
+import ChatRoom from "../pages/ChatRoom";
 
 type RootStackParamList = {
   TabOneScreen: undefined;
