@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,9 +9,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Header, Button } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
+import { Icon } from "react-native-paper";
 
-const topics = [
+const allTopics = [
   {
     id: "1",
     title: "Real Pixel with Zeplin",
@@ -20,6 +20,8 @@ const topics = [
     date: "12 Mar 2018",
     avatar: "https://via.placeholder.com/50",
     liked: true,
+    content:
+      "Detailed discussion about using Zeplin for pixel-perfect designs.",
   },
   {
     id: "2",
@@ -29,6 +31,8 @@ const topics = [
     date: "14 Mar 2018",
     avatar: "https://via.placeholder.com/50",
     liked: false,
+    content:
+      "Pros and cons of using Invision vs Sketch Cloud for design collaboration.",
   },
   {
     id: "3",
@@ -38,6 +42,8 @@ const topics = [
     date: "13 Mar 2018",
     avatar: "https://via.placeholder.com/50",
     liked: false,
+    content:
+      "Seeking advice for resolving a specific GitHub error encountered during a project.",
   },
   {
     id: "4",
@@ -47,6 +53,8 @@ const topics = [
     date: "14 Mar 2018",
     avatar: "https://via.placeholder.com/50",
     liked: true,
+    content:
+      "Discussion on transitioning from Photoshop to other design tools.",
   },
   {
     id: "5",
@@ -56,6 +64,7 @@ const topics = [
     date: "13 Mar 2018",
     avatar: "https://via.placeholder.com/50",
     liked: false,
+    content: "Looking for a UI designer to join a growing development team.",
   },
   {
     id: "6",
@@ -65,10 +74,29 @@ const topics = [
     date: "14 Mar 2018",
     avatar: "https://via.placeholder.com/50",
     liked: false,
+    content:
+      "A casual discussion on dealing with mental stress during project deadlines.",
   },
 ];
 
+const featuredTopics = allTopics.filter((topic) => topic.liked);
+const mostRecentTopics = allTopics.sort(
+  (a, b) => (new Date(b.date) as any) - (new Date(a.date) as any)
+);
+
 const ForumScreen = () => {
+  const [topics, setTopics] = useState(allTopics);
+  const [activeTab, setActiveTab] = useState("Featured Topics");
+
+  const handleTabPress = (tab: any) => {
+    setActiveTab(tab);
+    if (tab === "Featured Topics") {
+      setTopics(featuredTopics);
+    } else {
+      setTopics(mostRecentTopics);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header
@@ -78,13 +106,31 @@ const ForumScreen = () => {
       <View style={styles.tabContainer}>
         <Button
           title="Featured Topics"
-          buttonStyle={styles.tabButton}
-          titleStyle={styles.tabTitle}
+          buttonStyle={
+            activeTab === "Featured Topics"
+              ? styles.tabButton
+              : styles.tabButtonInactive
+          }
+          titleStyle={
+            activeTab === "Featured Topics"
+              ? styles.tabTitle
+              : styles.tabTitleInactive
+          }
+          onPress={() => handleTabPress("Featured Topics")}
         />
         <Button
           title="Most Recent"
-          buttonStyle={[styles.tabButton, styles.tabButtonInactive]}
-          titleStyle={styles.tabTitleInactive}
+          buttonStyle={
+            activeTab === "Most Recent"
+              ? styles.tabButton
+              : styles.tabButtonInactive
+          }
+          titleStyle={
+            activeTab === "Most Recent"
+              ? styles.tabTitle
+              : styles.tabTitleInactive
+          }
+          onPress={() => handleTabPress("Most Recent")}
         />
       </View>
       <FlatList
@@ -103,11 +149,20 @@ const ForumScreen = () => {
                 <Text style={styles.author}>{item.author}</Text>
                 <Text style={styles.replies}>{item.replies} Replies</Text>
                 <Text style={styles.date}>{item.date}</Text>
+                <Text style={styles.content}>{item.content}</Text>
               </View>
-              <TouchableOpacity>
-                <Text style={item.liked ? styles.liked : styles.notLiked}>
-                  ♥
-                </Text>
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  right: 10,
+                  top: 10,
+                }}
+              >
+                <Icon
+                  source={item.liked ? "heart" : "heart-outline"}
+                  color={item.liked ? "red" : "gray"}
+                  size={30}
+                />
               </TouchableOpacity>
             </View>
           </TouchableOpacity>
@@ -179,6 +234,10 @@ const styles = StyleSheet.create({
   },
   date: {
     color: "gray",
+  },
+  content: {
+    color: "black",
+    marginTop: 5,
   },
   liked: {
     color: "red",

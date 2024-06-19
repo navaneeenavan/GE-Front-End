@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { Appbar } from "react-native-paper";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +18,7 @@ const appointments = [
     id: "1",
     status: "SOON",
     title: "Clinic visit appointment: cardiology",
-    date: "01/27/24",
+    date: "06/20/24",
     time: "10:15 AM",
     doctor: {
       name: "Ahmed El Sayed",
@@ -29,11 +29,99 @@ const appointments = [
     id: "2",
     status: "NEXT WEEK",
     title: "Online consultation: Blood test results",
-    date: "01/31/24",
+    date: "06/27/24",
     time: "11:30 AM",
     doctor: {
       name: "Sharif Allee",
       specialization: "Therapist, PhD",
+    },
+  },
+  {
+    id: "3",
+    status: "PAST",
+    title: "Follow-up: General health check",
+    date: "06/13/24",
+    time: "09:00 AM",
+    doctor: {
+      name: "Maria Gomez",
+      specialization: "General Practitioner, MD",
+    },
+  },
+  {
+    id: "4",
+    status: "PAST",
+    title: "Dental check-up",
+    date: "06/10/24",
+    time: "01:30 PM",
+    doctor: {
+      name: "John Smith",
+      specialization: "Dentist, DDS",
+    },
+  },
+  {
+    id: "5",
+    status: "SOON",
+    title: "Eye examination",
+    date: "06/21/24",
+    time: "03:00 PM",
+    doctor: {
+      name: "Lucy Brown",
+      specialization: "Ophthalmologist, MD",
+    },
+  },
+  {
+    id: "6",
+    status: "NEXT WEEK",
+    title: "Physical therapy session",
+    date: "06/28/24",
+    time: "10:00 AM",
+    doctor: {
+      name: "Kevin White",
+      specialization: "Physical Therapist, DPT",
+    },
+  },
+  {
+    id: "7",
+    status: "PAST",
+    title: "Nutrition consultation",
+    date: "06/12/24",
+    time: "12:00 PM",
+    doctor: {
+      name: "Sophia Lee",
+      specialization: "Dietitian, PhD",
+    },
+  },
+  {
+    id: "8",
+    status: "SOON",
+    title: "MRI scan",
+    date: "06/23/24",
+    time: "02:15 PM",
+    doctor: {
+      name: "Mohammed Ali",
+      specialization: "Radiologist, MD",
+    },
+  },
+  {
+    id: "9",
+    status: "NEXT WEEK",
+    title: "Dermatology consultation",
+    date: "06/30/24",
+    time: "04:00 PM",
+    doctor: {
+      name: "Emily Davis",
+      specialization: "Dermatologist, MD",
+    },
+  },
+  {
+    id: "10",
+    status: "PAST",
+    title: "ENT specialist consultation",
+    date: "06/09/24",
+    time: "11:00 AM",
+    doctor: {
+      name: "James Wilson",
+      specialization: "ENT Specialist, MD",
     },
   },
 ];
@@ -52,10 +140,6 @@ type Appointment = {
 
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => (
   <View style={styles.card}>
-    <View style={styles.cardHeader}>
-      <Text style={styles.status}>{appointment.status}</Text>
-      <Ionicons name="ellipsis-horizontal" size={24} color="black" />
-    </View>
     <Text style={styles.title}>{appointment.title}</Text>
     <View style={styles.detailRow}>
       <Text style={styles.label}>DATE</Text>
@@ -85,31 +169,64 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => (
 );
 
 const HomeScreen = () => {
-  const Navigation = useNavigation();
+  const navigation = useNavigation();
+  const [selectedTab, setSelectedTab] = useState("Upcoming");
+
+  const filteredAppointments = appointments.filter((appointment) =>
+    selectedTab === "Upcoming"
+      ? appointment.status !== "PAST"
+      : appointment.status === "PAST"
+  );
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => Navigation.goBack()}>
-          <Ionicons name="chevron-back" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Check-up schedule</Text>
-        <Ionicons name="filter-outline" size={24} color="black" />
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content title="Appointments" />
+      </Appbar.Header>
+      <View style={styles.container}>
+        <View style={styles.tabBar}>
+          <TouchableOpacity
+            style={[
+              styles.tabButton,
+              selectedTab === "Upcoming" && styles.activeTabButton,
+            ]}
+            onPress={() => setSelectedTab("Upcoming")}
+          >
+            <Text
+              style={[
+                styles.tabButtonText,
+                selectedTab === "Upcoming" && styles.activeTabButtonText,
+              ]}
+            >
+              Upcoming
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.tabButton,
+              selectedTab === "History" && styles.activeTabButton,
+            ]}
+            onPress={() => setSelectedTab("History")}
+          >
+            <Text
+              style={[
+                styles.tabButtonText,
+                selectedTab === "History" && styles.activeTabButtonText,
+              ]}
+            >
+              History
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          data={filteredAppointments}
+          renderItem={({ item }) => <AppointmentCard appointment={item} />}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContent}
+        />
       </View>
-      <View style={styles.tabBar}>
-        <TouchableOpacity style={styles.tabButton}>
-          <Text style={styles.tabButtonText}>Upcoming</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabButton}>
-          <Text style={styles.tabButtonText}>History</Text>
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={appointments}
-        renderItem={({ item }) => <AppointmentCard appointment={item} />}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-      />
-    </View>
+    </>
   );
 };
 
@@ -127,7 +244,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
-    paddingTop: 40,
+    paddingTop: 10,
   },
   header: {
     flexDirection: "row",
@@ -154,9 +271,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#ffffff",
   },
+  activeTabButton: {
+    backgroundColor: "#d4eecb",
+  },
   tabButtonText: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  activeTabButtonText: {
+    color: "blue",
   },
   listContent: {
     padding: 16,

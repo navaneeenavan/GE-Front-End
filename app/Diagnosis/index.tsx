@@ -14,6 +14,7 @@ import { Appbar } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import axios from "axios";
+import { useGlobalSearchParams } from "expo-router";
 
 type FileInfo = DocumentPicker.DocumentPickerResult | null;
 
@@ -40,6 +41,7 @@ const App = () => {
       Alert.alert("An error occurred while uploading the file");
     }
   };
+  const patient = useGlobalSearchParams();
 
   const upload_Document = async () => {
     try {
@@ -62,21 +64,7 @@ const App = () => {
         <Appbar.Content title="Diagnosis" />
       </Appbar.Header>
       <ScrollView style={styles.container}>
-        <View style={styles.profileContainer}>
-          <Image
-            source={{ uri: "https://via.placeholder.com/80" }} // Replace with your image URL
-            style={styles.profileImage}
-          />
-          <View style={styles.profileDetails}>
-            <Text style={styles.name}>Sarah Chang</Text>
-            <Text style={styles.details}>Age: 39 Female</Text>
-            <Text style={styles.details}>Severe Sepsis</Text>
-            <View style={styles.criticalContainer}>
-              <Text style={styles.criticalText}>Critical</Text>
-            </View>
-            <Text style={styles.details}>Criticality Score: 9.4</Text>
-          </View>
-        </View>
+        {newFunction(patient)}
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Primary Diagnosis:</Text>
@@ -225,3 +213,26 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+function newFunction(patient: any) {
+  return (
+    <View style={styles.profileContainer}>
+      <Image
+        source={{ uri: "https://via.placeholder.com/80" }} // Replace with your image URL
+        style={styles.profileImage}
+      />
+      <View style={styles.profileDetails}>
+        <Text style={styles.name}>{patient.name}</Text>
+        <Text style={styles.details}>
+          Age: {patient.age} {patient.gender}
+        </Text>
+        <Text style={styles.details}>{patient.HealthCondition}</Text>
+        <View style={styles.criticalContainer}>
+          <Text style={styles.criticalText}>{patient.Criticality}</Text>
+        </View>
+        <Text style={styles.details}>
+          Criticality Score: {patient.CriticalityScore}
+        </Text>
+      </View>
+    </View>
+  );
+}

@@ -13,17 +13,42 @@ import tw from "twrnc";
 import { router } from "expo-router";
 
 const Diagnosis = () => {
-  const [SearchQuery, setSearchQuery] = React.useState("");
-  const patientsList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const PatientData = {
-    name: "Sarah Chang",
-    age: 39,
-    gender: "Female",
-    HealthCondition: "Severe Sepsis",
-    CriticalityScore: 9.4,
-    Criticality: "Critical",
-    image_uri: "https://via.placeholder.com/60",
-  };
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  const patientsList = [
+    {
+      id: 1,
+      name: "Sarah Chang",
+      age: 39,
+      gender: "Female",
+      HealthCondition: "Severe Sepsis",
+      CriticalityScore: 9.4,
+      Criticality: "Critical",
+      image_uri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 2,
+      name: "John Doe",
+      age: 45,
+      gender: "Male",
+      HealthCondition: "Cardiac Arrest",
+      CriticalityScore: 8.9,
+      Criticality: "Critical",
+      image_uri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 3,
+      name: "Jane Smith",
+      age: 32,
+      gender: "Female",
+      HealthCondition: "Stroke",
+      CriticalityScore: 9.1,
+      Criticality: "Critical",
+      image_uri: "https://via.placeholder.com/60",
+    },
+    // Add more patient data as needed
+  ];
+
   return (
     <>
       <ScrollView
@@ -33,7 +58,8 @@ const Diagnosis = () => {
       >
         <Searchbar
           placeholder="Search"
-          value=""
+          value={searchQuery}
+          onChangeText={(query) => setSearchQuery(query)}
           style={{
             borderRadius: 10,
             width: "95%",
@@ -52,24 +78,20 @@ const Diagnosis = () => {
             gap: 10,
           }}
         >
-          {patientsList.map((item, index) => (
-            <PatientsCard
-              key={index}
-              name={PatientData.name}
-              image_uri={PatientData.image_uri}
-              age={PatientData.age}
-              gender={PatientData.gender}
-              HealthCondition={PatientData.HealthCondition}
-              CriticalityScore={PatientData.CriticalityScore}
-              Criticality={PatientData.Criticality}
-            />
-          ))}
+          {patientsList
+            .filter((patient) =>
+              patient.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((patient) => (
+              <PatientsCard key={patient.id} patient={patient} />
+            ))}
         </View>
       </ScrollView>
     </>
   );
 
-  interface PatientsCardProps {
+  interface Patient {
+    id: number;
     name: string;
     image_uri: string;
     age: number;
@@ -77,45 +99,49 @@ const Diagnosis = () => {
     HealthCondition: string;
     CriticalityScore: number;
     Criticality: string;
+    [key: string]: string | number;
   }
 
-  function PatientsCard({
-    name,
-    image_uri,
-    age,
-    gender,
-    HealthCondition,
-    CriticalityScore,
-    Criticality,
-  }: PatientsCardProps) {
+  interface PatientsCardProps {
+    patient: Patient;
+  }
+
+  function PatientsCard({ patient }: PatientsCardProps) {
     return (
       <SafeAreaView
         style={tw`pb-[10] pl-[10] pr-[10]  w-5/5 bg-[#FFF6F6] rounded-xl shadow`}
       >
         <TouchableOpacity
           onPress={() => {
-            router.push("/Diagnosis");
+            router.push({
+              pathname: "/Diagnosis",
+              params: patient,
+            });
           }}
         >
           <View style={tw`flex flex-row items-center mt-[-25]`}>
             <Image
-              source={{ uri: image_uri }}
+              source={{ uri: patient.image_uri }}
               style={tw`w-16 h-16 rounded-full`}
             />
             <View style={tw`ml-4 flex-1`}>
-              <Text style={tw`text-lg font-semibold text-black`}>{name}</Text>
-              <Text style={tw`text-gray-700 mt-1`}>
-                Age: {age} {gender}
+              <Text style={tw`text-lg font-semibold text-black`}>
+                {patient.name}
               </Text>
-              <Text style={tw`text-gray-700`}>{HealthCondition}</Text>
+              <Text style={tw`text-gray-700 mt-1`}>
+                Age: {patient.age} {patient.gender}
+              </Text>
+              <Text style={tw`text-gray-700`}>{patient.HealthCondition}</Text>
               <Text style={tw`text-gray-700`}>
-                Criticality Score: {CriticalityScore}
+                Criticality Score: {patient.CriticalityScore}
               </Text>
             </View>
             <View
               style={tw`bg-white border border-red-500 rounded-full px-3 py-1`}
             >
-              <Text style={tw`text-red-500 font-semibold`}>{Criticality}</Text>
+              <Text style={tw`text-red-500 font-semibold`}>
+                {patient.Criticality}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>

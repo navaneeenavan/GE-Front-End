@@ -1,3 +1,4 @@
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -6,7 +7,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
 import { Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
@@ -14,16 +14,109 @@ import { router } from "expo-router";
 
 const MyPatients = () => {
   const [SearchQuery, setSearchQuery] = React.useState("");
-  const patientsList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const PatientData = {
-    name: "Sarah Chang",
-    age: 39,
-    gender: "Female",
-    HealthCondition: "Severe Sepsis",
-    CriticalityScore: 9.4,
-    Criticality: "Critical",
-    image_uri: "https://via.placeholder.com/60",
-  };
+  const patientsList = [
+    {
+      id: 1,
+      name: "Sarah Chang",
+      age: 39,
+      gender: "Female",
+      healthCondition: "Severe Sepsis",
+      criticalityScore: 9.4,
+      criticality: "Critical",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 2,
+      name: "John Doe",
+      age: 50,
+      gender: "Male",
+      healthCondition: "Heart Attack",
+      criticalityScore: 8.9,
+      criticality: "Critical",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 3,
+      name: "Jane Smith",
+      age: 45,
+      gender: "Female",
+      healthCondition: "Stroke",
+      criticalityScore: 7.5,
+      criticality: "High",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 4,
+      name: "Mark Johnson",
+      age: 60,
+      gender: "Male",
+      healthCondition: "Pneumonia",
+      criticalityScore: 6.8,
+      criticality: "Moderate",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 5,
+      name: "Emily Davis",
+      age: 30,
+      gender: "Female",
+      healthCondition: "COVID-19",
+      criticalityScore: 8.2,
+      criticality: "High",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 6,
+      name: "Michael Brown",
+      age: 55,
+      gender: "Male",
+      healthCondition: "Kidney Failure",
+      criticalityScore: 7.0,
+      criticality: "Moderate",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 7,
+      name: "Laura Wilson",
+      age: 28,
+      gender: "Female",
+      healthCondition: "Asthma",
+      criticalityScore: 5.5,
+      criticality: "Low",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 8,
+      name: "James Taylor",
+      age: 47,
+      gender: "Male",
+      healthCondition: "Diabetes",
+      criticalityScore: 6.3,
+      criticality: "Moderate",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 9,
+      name: "Linda Martinez",
+      age: 52,
+      gender: "Female",
+      healthCondition: "Hypertension",
+      criticalityScore: 6.1,
+      criticality: "Moderate",
+      imageUri: "https://via.placeholder.com/60",
+    },
+    {
+      id: 10,
+      name: "Robert Anderson",
+      age: 65,
+      gender: "Male",
+      healthCondition: "Alzheimer's Disease",
+      criticalityScore: 4.9,
+      criticality: "Low",
+      imageUri: "https://via.placeholder.com/60",
+    },
+  ];
+
   return (
     <>
       <ScrollView
@@ -33,7 +126,8 @@ const MyPatients = () => {
       >
         <Searchbar
           placeholder="Search"
-          value=""
+          value={SearchQuery}
+          onChangeText={(query) => setSearchQuery(query)}
           style={{
             borderRadius: 10,
             width: "95%",
@@ -52,70 +146,66 @@ const MyPatients = () => {
             gap: 10,
           }}
         >
-          {patientsList.map((item, index) => (
-            <PatientsCard
-              key={index}
-              name={PatientData.name}
-              image_uri={PatientData.image_uri}
-              age={PatientData.age}
-              gender={PatientData.gender}
-              HealthCondition={PatientData.HealthCondition}
-              CriticalityScore={PatientData.CriticalityScore}
-              Criticality={PatientData.Criticality}
-            />
+          {patientsList.map((patient) => (
+            <PatientsCard key={patient.id} patient={patient} />
           ))}
         </View>
       </ScrollView>
     </>
   );
 
-  interface PatientsCardProps {
+  interface Patient {
+    id: number;
     name: string;
-    image_uri: string;
+    imageUri: string;
     age: number;
     gender: string;
-    HealthCondition: string;
-    CriticalityScore: number;
-    Criticality: string;
+    healthCondition: string;
+    criticalityScore: number;
+    criticality: string;
+    [key: string]: string | number;
   }
 
-  function PatientsCard({
-    name,
-    image_uri,
-    age,
-    gender,
-    HealthCondition,
-    CriticalityScore,
-    Criticality,
-  }: PatientsCardProps) {
+  interface PatientsCardProps {
+    patient: Patient;
+  }
+
+  function PatientsCard({ patient }: PatientsCardProps) {
     return (
       <SafeAreaView
         style={tw`pb-[10] pl-[10] pr-[10]  w-5/5 bg-[#FFF6F6] rounded-xl shadow`}
       >
         <TouchableOpacity
           onPress={() => {
-            router.push("/Details");
+            router.push({
+              pathname: "/Details",
+              params: patient,
+            });
           }}
         >
           <View style={tw`flex flex-row items-center mt-[-25]`}>
             <Image
-              source={{ uri: image_uri }}
+              source={{ uri: patient.imageUri }}
               style={tw`w-16 h-16 rounded-full`}
             />
             <View style={tw`ml-4 flex-1`}>
-              <Text style={tw`text-lg font-semibold text-black`}>{name}</Text>
-              <Text style={tw`text-gray-700 mt-1`}>
-                Age: {age} {gender}
+              <Text style={tw`text-lg font-semibold text-black`}>
+                {patient.name}
               </Text>
-              <Text style={tw`text-gray-700`}>{HealthCondition}</Text>
+              <Text style={tw`text-gray-700 mt-1`}>
+                Age: {patient.age} {patient.gender}
+              </Text>
+              <Text style={tw`text-gray-700`}>{patient.healthCondition}</Text>
               <Text style={tw`text-gray-700`}>
-                Criticality Score: {CriticalityScore}
+                Criticality Score: {patient.criticalityScore}
               </Text>
             </View>
             <View
               style={tw`bg-white border border-red-500 rounded-full px-3 py-1`}
             >
-              <Text style={tw`text-red-500 font-semibold`}>{Criticality}</Text>
+              <Text style={tw`text-red-500 font-semibold`}>
+                {patient.criticality}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
