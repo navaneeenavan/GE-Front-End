@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   Share,
+  Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +17,13 @@ import { Appbar } from "react-native-paper";
 
 export default function App() {
   const Navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState(null);
+
+  const handlePress = (item: any) => {
+    setModalVisible(true);
+  };
+
   useEffect(() => {
     Navigation.setOptions({
       headerShown: false,
@@ -40,10 +48,12 @@ export default function App() {
                 <Ionicons name="arrow-up" size={16} color="black" />
                 <Text style={styles.statText}>1.2k</Text>
               </View>
-              <View style={styles.stat}>
-                <Ionicons name="chatbubble-outline" size={16} color="black" />
-                <Text style={styles.statText}>35</Text>
-              </View>
+              <TouchableOpacity onPress={() => {}}>
+                <View style={styles.stat}>
+                  <Ionicons name="chatbubble-outline" size={16} color="black" />
+                  <Text style={styles.statText}>35</Text>
+                </View>
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={async () => {
                   try {
@@ -108,6 +118,19 @@ export default function App() {
           </View>
         </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}></Text>
+            <Button title="Close" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
@@ -157,5 +180,22 @@ const styles = StyleSheet.create({
   paragraph: {
     marginBottom: 8,
     lineHeight: 20,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalText: {
+    marginBottom: 20,
+    textAlign: "center",
   },
 });
