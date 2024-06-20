@@ -1,9 +1,10 @@
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, FlatList, Text, Image, TouchableOpacity } from "react-native";
 import { Header, Button } from "react-native-elements";
 import { Icon } from "react-native-paper";
 import tw from "twrnc";
+import axios from "axios";
 
 const allTopics = [
   {
@@ -82,6 +83,8 @@ const ForumScreen = () => {
   const [topics, setTopics] = useState(allTopics);
   const [activeTab, setActiveTab] = useState("Featured Topics");
 
+  useEffect(() => {}, []);
+
   const handleTabPress = (tab: any) => {
     setActiveTab(tab);
     if (tab === "Featured Topics") {
@@ -147,11 +150,9 @@ const ForumScreen = () => {
                 <Text style={tw`text-gray-500`}>{item.author}</Text>
                 <Text style={tw`text-black mt-1`}>{item.content}</Text>
                 <View style={tw`flex flex-row justify-between mt-1`}>
-                <Text style={tw`text-gray-500`}>{item.replies} Replies</Text>
-                <Text style={tw`text-gray-500`}>{item.date}</Text>
+                  <Text style={tw`text-gray-500`}>{item.replies} Replies</Text>
+                  <Text style={tw`text-gray-500`}>{item.date}</Text>
                 </View>
-                
-               
               </View>
               <TouchableOpacity style={tw`absolute right-5 bottom-20`}>
                 <Icon
