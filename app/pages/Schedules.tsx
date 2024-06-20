@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   FlatList,
 } from "react-native";
@@ -10,6 +9,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Appbar } from "react-native-paper";
+import tw from "twrnc";
+import { ArrowUpRightIcon } from "react-native-heroicons/outline";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ const appointments = [
       name: "Ahmed El Sayed",
       specialization: "Cardiologist, PhD, MD",
     },
+    est : "Next Week",
   },
   {
     id: "2",
@@ -35,6 +37,7 @@ const appointments = [
       name: "Sharif Allee",
       specialization: "Therapist, PhD",
     },
+    est : "Next Week",
   },
   {
     id: "3",
@@ -46,6 +49,7 @@ const appointments = [
       name: "Maria Gomez",
       specialization: "General Practitioner, MD",
     },
+    est : "Next Week",
   },
   {
     id: "4",
@@ -57,6 +61,7 @@ const appointments = [
       name: "John Smith",
       specialization: "Dentist, DDS",
     },
+    est : "Next Week",
   },
   {
     id: "5",
@@ -68,6 +73,7 @@ const appointments = [
       name: "Lucy Brown",
       specialization: "Ophthalmologist, MD",
     },
+    est : "Next Week",
   },
   {
     id: "6",
@@ -79,6 +85,7 @@ const appointments = [
       name: "Kevin White",
       specialization: "Physical Therapist, DPT",
     },
+    est : "Next Week",
   },
   {
     id: "7",
@@ -90,6 +97,7 @@ const appointments = [
       name: "Sophia Lee",
       specialization: "Dietitian, PhD",
     },
+    est : "Next Week",
   },
   {
     id: "8",
@@ -101,6 +109,7 @@ const appointments = [
       name: "Mohammed Ali",
       specialization: "Radiologist, MD",
     },
+    est : "Next Week",
   },
   {
     id: "9",
@@ -112,6 +121,7 @@ const appointments = [
       name: "Emily Davis",
       specialization: "Dermatologist, MD",
     },
+    est : "Next Week",
   },
   {
     id: "10",
@@ -123,6 +133,7 @@ const appointments = [
       name: "James Wilson",
       specialization: "ENT Specialist, MD",
     },
+    est : "Next Week",
   },
 ];
 
@@ -139,31 +150,35 @@ type Appointment = {
 };
 
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => (
-  <View style={styles.card}>
-    <Text style={styles.title}>{appointment.title}</Text>
-    <View style={styles.detailRow}>
-      <Text style={styles.label}>DATE</Text>
-      <Text style={styles.value}>{appointment.date}</Text>
-      <Text style={styles.label}>TIME</Text>
-      <Text style={styles.value}>{appointment.time}</Text>
+  <View style={tw`bg-white rounded-2xl p-4 mb-4 shadow gap-5`}>
+    <View style={tw`border border-[#3872F7] rounded-full p-3 w-25 item-center text-center  py-1 mb-3`}>
+      <Text style={tw`text-[#3872F7]`}>{appointment.est}</Text></View>
+    <Text style={tw`text-lg font-bold mb-2`}>{appointment.title}</Text>
+    <View style={tw`flex-row items-center mb-2 gap-10`}>
+      <View style={tw`flex flex-col`}>
+      <Text style={tw`text-xs text-gray-600 mr-4`}>DATE</Text>
+      <Text style={tw`text-base text-black mr-6 font-semibold text-2xl`}>{appointment.date}</Text>
+      </View>
+      <View style={tw`flex flex-col`}>
+      <Text style={tw`text-xs text-gray-600 mr-4`}>TIME</Text>
+      <Text style={tw`text-base text-black mr-6 font-semibold text-2xl`}>{appointment.time}</Text>
+      </View>
     </View>
-    <View style={styles.detailRow}>
+    <View style={tw`border border-gray-200 px-5`}></View>
+    <View style={tw`flex-row items-center mb-2`}>
       <Ionicons name="person-circle" size={40} color="gray" />
-      <View style={styles.doctorInfo}>
-        <Text style={styles.doctorName}>{appointment.doctor.name}</Text>
-        <Text style={styles.doctorSpecialization}>
-          {appointment.doctor.specialization}
-        </Text>
+      <View style={tw`flex-1 ml-4`}>
+        <Text style={tw`text-base font-bold`}>{appointment.doctor.name}</Text>
+        <Text style={tw`text-xs text-gray-600`}>{appointment.doctor.specialization}</Text>
       </View>
-      <View style={styles.iconsRow}>
-        <Ionicons name="call-outline" size={24} color="blue" />
-        <Ionicons
-          name="chatbubble-ellipses-outline"
-          size={24}
-          color="blue"
-          style={{ marginLeft: 16 }}
-        />
-      </View>
+      <TouchableOpacity
+                    style={tw`bg-blue-500 p-4  mx-[5%] rounded-full  ml-10  flex-row justify-center items-center gap-2`}
+                    // onPress={() => router.push({pathname: "/Diagnosis", params: patient})}
+                  >
+                    <ArrowUpRightIcon size={20} color={"white"} />
+                  </TouchableOpacity>
+            
+
     </View>
   </View>
 );
@@ -184,19 +199,19 @@ const HomeScreen = () => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Appointments" />
       </Appbar.Header>
-      <View style={styles.container}>
-        <View style={styles.tabBar}>
+      <View style={tw`flex-1 bg-gray-100`}>
+        <View style={tw`flex-row justify-around py-2 bg-white`}>
           <TouchableOpacity
             style={[
-              styles.tabButton,
-              selectedTab === "Upcoming" && styles.activeTabButton,
+              tw`py-2 px-4 rounded-full`,
+              selectedTab === "Upcoming" && tw`bg-blue-500`,
             ]}
             onPress={() => setSelectedTab("Upcoming")}
           >
             <Text
               style={[
-                styles.tabButtonText,
-                selectedTab === "Upcoming" && styles.activeTabButtonText,
+                tw`text-base font-bold`,
+                selectedTab === "Upcoming" && tw`text-white`,
               ]}
             >
               Upcoming
@@ -204,15 +219,15 @@ const HomeScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[
-              styles.tabButton,
-              selectedTab === "History" && styles.activeTabButton,
+              tw`py-2 px-4 rounded-full`,
+              selectedTab === "History" && tw`bg-blue-500`,
             ]}
             onPress={() => setSelectedTab("History")}
           >
             <Text
               style={[
-                styles.tabButtonText,
-                selectedTab === "History" && styles.activeTabButtonText,
+                tw`text-base font-bold`,
+                selectedTab === "History" && tw`text-white`,
               ]}
             >
               History
@@ -223,7 +238,7 @@ const HomeScreen = () => {
           data={filteredAppointments}
           renderItem={({ item }) => <AppointmentCard appointment={item} />}
           keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={tw`p-4`}
         />
       </View>
     </>
@@ -239,107 +254,5 @@ const Schedules = () => (
     />
   </Stack.Navigator>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-    paddingTop: 10,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 16,
-    backgroundColor: "#ffffff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#dddddd",
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  tabBar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 10,
-    backgroundColor: "#d4eecb",
-  },
-  tabButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    backgroundColor: "#ffffff",
-  },
-  activeTabButton: {
-    backgroundColor: "#d4eecb",
-  },
-  tabButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  activeTabButtonText: {
-    color: "blue",
-  },
-  listContent: {
-    padding: 16,
-  },
-  card: {
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-  status: {
-    color: "red",
-    fontWeight: "bold",
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  detailRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  label: {
-    fontSize: 12,
-    color: "#888888",
-    marginRight: 16,
-  },
-  value: {
-    fontSize: 14,
-    color: "#000000",
-    marginRight: 24,
-  },
-  doctorInfo: {
-    flex: 1,
-    marginLeft: 16,
-  },
-  doctorName: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  doctorSpecialization: {
-    fontSize: 12,
-    color: "#888888",
-  },
-  iconsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-});
 
 export default Schedules;

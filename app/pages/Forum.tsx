@@ -1,21 +1,15 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Text,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, FlatList, Text, Image, TouchableOpacity } from "react-native";
 import { Header, Button } from "react-native-elements";
 import { Icon } from "react-native-paper";
+import tw from "twrnc";
 
 const allTopics = [
   {
     id: "1",
     title: "Real Pixel with Zeplin",
-    author: "Leticia Brink",
+    author: "@Leticia Brink",
     replies: 24,
     date: "12 Mar 2018",
     avatar: "https://via.placeholder.com/50",
@@ -26,7 +20,7 @@ const allTopics = [
   {
     id: "2",
     title: "Invision or Sketch Cloud?",
-    author: "Jacky Simons",
+    author: "@Jacky Simons",
     replies: 17,
     date: "14 Mar 2018",
     avatar: "https://via.placeholder.com/50",
@@ -37,7 +31,7 @@ const allTopics = [
   {
     id: "3",
     title: "Need Help for Github error",
-    author: "Jonathon Davi",
+    author: "@Jonathon Davi",
     replies: 48,
     date: "13 Mar 2018",
     avatar: "https://via.placeholder.com/50",
@@ -48,7 +42,7 @@ const allTopics = [
   {
     id: "4",
     title: "Switching from Photoshop",
-    author: "Elizabeth Smith",
+    author: "@Elizabeth Smith",
     replies: 55,
     date: "14 Mar 2018",
     avatar: "https://via.placeholder.com/50",
@@ -59,7 +53,7 @@ const allTopics = [
   {
     id: "5",
     title: "Need UI Designer for Team",
-    author: "Russel Wade",
+    author: "@Russel Wade",
     replies: 41,
     date: "13 Mar 2018",
     avatar: "https://via.placeholder.com/50",
@@ -69,7 +63,7 @@ const allTopics = [
   {
     id: "6",
     title: "Dimag Ki Dahi Kardi",
-    author: "Elizabeth Smith",
+    author: "@Elizabeth Smith",
     replies: 55,
     date: "14 Mar 2018",
     avatar: "https://via.placeholder.com/50",
@@ -98,23 +92,24 @@ const ForumScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={tw`flex-1 bg-gray-100`}>
       <Header
-        centerComponent={{ text: "Forum", style: styles.headerText }}
-        containerStyle={styles.headerContainer}
+        centerComponent={{
+          text: "Forum",
+          style: tw`text-xl font-bold text-black`,
+        }}
+        containerStyle={tw`bg-white`}
       />
-      <View style={styles.tabContainer}>
+      <View style={tw`flex-row justify-around mb-2  bg-white py-5`}>
         <Button
           title="Featured Topics"
           buttonStyle={
             activeTab === "Featured Topics"
-              ? styles.tabButton
-              : styles.tabButtonInactive
+              ? tw`bg-blue-500 rounded-full px-5`
+              : tw`bg-gray-200 rounded-full px-5`
           }
           titleStyle={
-            activeTab === "Featured Topics"
-              ? styles.tabTitle
-              : styles.tabTitleInactive
+            activeTab === "Featured Topics" ? tw`text-white` : tw`text-black`
           }
           onPress={() => handleTabPress("Featured Topics")}
         />
@@ -122,13 +117,11 @@ const ForumScreen = () => {
           title="Most Recent"
           buttonStyle={
             activeTab === "Most Recent"
-              ? styles.tabButton
-              : styles.tabButtonInactive
+              ? tw`bg-blue-500 rounded-full px-5`
+              : tw`bg-gray-200 rounded-full px-5`
           }
           titleStyle={
-            activeTab === "Most Recent"
-              ? styles.tabTitle
-              : styles.tabTitleInactive
+            activeTab === "Most Recent" ? tw`text-white` : tw`text-black`
           }
           onPress={() => handleTabPress("Most Recent")}
         />
@@ -142,22 +135,25 @@ const ForumScreen = () => {
               router.push("/Forums");
             }}
           >
-            <View style={styles.topicContainer}>
-              <Image source={{ uri: item.avatar }} style={styles.avatar} />
-              <View style={styles.textContainer}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.author}>{item.author}</Text>
-                <Text style={styles.replies}>{item.replies} Replies</Text>
-                <Text style={styles.date}>{item.date}</Text>
-                <Text style={styles.content}>{item.content}</Text>
+            <View
+              style={tw` flex flex-col items-center bg-white p-3 my-1 mx-2 rounded-2xl mt-1`}
+            >
+              <Image
+                source={{ uri: item.avatar }}
+                style={tw`w-full h-72 rounded-t-3`}
+              />
+              <View style={tw`flex-1 `}>
+                <Text style={tw`text-lg font-semibold`}>{item.title}</Text>
+                <Text style={tw`text-gray-500`}>{item.author}</Text>
+                <Text style={tw`text-black mt-1`}>{item.content}</Text>
+                <View style={tw`flex flex-row justify-between mt-1`}>
+                <Text style={tw`text-gray-500`}>{item.replies} Replies</Text>
+                <Text style={tw`text-gray-500`}>{item.date}</Text>
+                </View>
+                
+               
               </View>
-              <TouchableOpacity
-                style={{
-                  position: "absolute",
-                  right: 10,
-                  top: 10,
-                }}
-              >
+              <TouchableOpacity style={tw`absolute right-5 bottom-20`}>
                 <Icon
                   source={item.liked ? "heart" : "heart-outline"}
                   color={item.liked ? "red" : "gray"}
@@ -171,82 +167,5 @@ const ForumScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f0f0f0",
-  },
-  headerContainer: {
-    backgroundColor: "white",
-  },
-  headerText: {
-    color: "#000",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  tabContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 10,
-  },
-  tabButton: {
-    backgroundColor: "#4287f5",
-    borderRadius: 20,
-    paddingHorizontal: 20,
-  },
-  tabButtonInactive: {
-    backgroundColor: "#e0e0e0",
-  },
-  tabTitle: {
-    color: "white",
-  },
-  tabTitleInactive: {
-    color: "black",
-  },
-  topicContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 10,
-    marginVertical: 5,
-    marginHorizontal: 10,
-    borderRadius: 10,
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  author: {
-    color: "gray",
-  },
-  replies: {
-    color: "gray",
-  },
-  date: {
-    color: "gray",
-  },
-  content: {
-    color: "black",
-    marginTop: 5,
-  },
-  liked: {
-    color: "red",
-    fontSize: 20,
-  },
-  notLiked: {
-    color: "gray",
-    fontSize: 20,
-  },
-});
 
 export default ForumScreen;

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  StyleSheet,
   View,
   Text,
   ScrollView,
@@ -12,30 +11,32 @@ import { Appbar, IconButton } from "react-native-paper";
 import { Icon } from "react-native-elements";
 import { router } from "expo-router";
 import { useRouter, useGlobalSearchParams } from "expo-router";
+import tw from "twrnc";
+
 const PatientCard = ({ patient }: { patient: any }) => {
   return (
-    <View style={styles.card}>
+    <View style={tw`w-11/12 bg-white p-5 rounded-lg shadow-md ml-5 mt-3 flex-row`}>
       <View>
-        <Text style={styles.title}>{patient.name}</Text>
-        <Text style={styles.details}>
+        <Text style={tw`text-xl font-bold mb-2`}>{patient.name}</Text>
+        <Text style={tw`text-lg mb-1`}>
           Age: {patient.age} {patient.gender}
         </Text>
-        <Text style={styles.details}>{patient.healthCondition}</Text>
-        <Text style={styles.details}>
+        <Text style={tw`text-lg mb-1`}>{patient.healthCondition}</Text>
+        <Text style={tw`text-lg mb-1`}>
           Criticality Score: {patient.criticalityScore}
         </Text>
-        <View style={styles.criticalContainer}>
-          <Text style={styles.criticalText}>Critical</Text>
+        <View style={tw`bg-red-500 rounded px-3 py-1 mt-2`}>
+          <Text style={tw`text-white font-bold`}>Critical</Text>
         </View>
         <TouchableOpacity
-          style={styles.button}
+          style={tw`bg-black rounded px-5 py-2 mt-5`}
           onPress={() => router.push("/Details/Careplans")}
         >
-          <Text style={styles.buttonText}>Show Careplan</Text>
+          <Text style={tw`text-white font-bold`}>Show Careplan</Text>
         </TouchableOpacity>
       </View>
       <View>
-        <Image source={{ uri: patient.imageUri }} style={styles.patientImage} />
+        <Image source={{ uri: patient.imageUri }} style={tw`w-37 h-37 rounded-full ml-7 mt-5`} />
       </View>
     </View>
   );
@@ -43,27 +44,27 @@ const PatientCard = ({ patient }: { patient: any }) => {
 
 const EquipmentItem = ({ equipment }: { equipment: any }) => {
   return (
-    <View style={styles.itemContainer}>
+    <View style={tw`flex-row items-center bg-white p-3 mb-2 rounded-lg border border-gray-300`}>
       <Icon
         name={equipment.icon}
         type="font-awesome-5"
         size={24}
-        style={styles.itemIcon}
+        style={tw`mr-4`}
       />
-      <Text style={styles.itemText}>{equipment.name}</Text>
+      <Text style={tw`text-lg`}>{equipment.name}</Text>
     </View>
   );
 };
 
 const StaffItem = ({ staff }: { staff: any }) => {
   return (
-    <View style={styles.itemContainer1}>
-      <Image source={{ uri: staff.image }} style={styles.itemImage} />
-      <View style={styles.itemInfo}>
-        <Text style={styles.itemText1}>
+    <View style={tw`flex-row items-center bg-white p-3 mb-2 rounded-lg border border-gray-300`}>
+      <Image source={{ uri: staff.image }} style={tw`w-12 h-12 rounded-full mr-4`} />
+      <View style={tw`flex-1`}>
+        <Text style={tw`text-lg`}>
           {staff.role}: {staff.name}
         </Text>
-        <Text style={styles.itemSubText}>Staff ID: {staff.id}</Text>
+        <Text style={tw`text-sm text-gray-600`}>Staff ID: {staff.id}</Text>
       </View>
     </View>
   );
@@ -178,19 +179,19 @@ const ResourceAllocationScreen = () => {
         <Appbar.Content title="Resource Allocation" />
       </Appbar.Header>
       <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        style={tw`flex-1 bg-gray-100`}
+        contentContainerStyle={tw`py-2`}
         showsVerticalScrollIndicator={false}
       >
         {patients.map((patient: any) => (
           <PatientCard key={patient.name} patient={patient} />
         ))}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Staffs</Text>
+        <View style={tw`mx-4 my-2`}>
+          <Text style={tw`text-xl font-bold mb-2`}>Staffs</Text>
           <IconButton
             icon="pencil"
             size={20}
-            style={styles.editIcon}
+            style={tw`absolute right-0 top-0`}
             onPress={() => {
               /* Add edit action */
             }}
@@ -199,12 +200,12 @@ const ResourceAllocationScreen = () => {
             <StaffItem key={staff.id} staff={staff} />
           ))}
         </View>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Equipment</Text>
+        <View style={tw`mx-4 my-2`}>
+          <Text style={tw`text-xl font-bold mb-2`}>Equipment</Text>
           <IconButton
             icon="pencil"
             size={20}
-            style={styles.editIcon}
+            style={tw`absolute right-0 top-0`}
             onPress={() => {
               /* Add edit action */
             }}
@@ -217,125 +218,5 @@ const ResourceAllocationScreen = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f0f0f0",
-  },
-  contentContainer: {
-    paddingVertical: 10,
-  },
-  section: {
-    marginHorizontal: 16,
-    marginVertical: 8,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  editIcon: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-  },
-  itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#dcdcdc",
-  },
-  itemIcon: {
-    marginRight: 16,
-  },
-  itemText: {
-    fontSize: 16,
-  },
-  itemContainer1: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 12,
-    marginBottom: 8,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#dcdcdc",
-  },
-  itemImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 16,
-  },
-  itemInfo: {
-    flex: 1,
-  },
-  itemText1: {
-    fontSize: 16,
-  },
-  itemSubText: {
-    fontSize: 14,
-    color: "#666",
-  },
-  card: {
-    width: "90%",
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: "#000",
-    marginLeft: 20,
-    marginTop: 10,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 3,
-    flexDirection: "row",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  details: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  criticalContainer: {
-    backgroundColor: "#ff4d4d",
-    borderRadius: 5,
-    paddingVertical: 3,
-    paddingHorizontal: 10,
-    alignSelf: "flex-start",
-    marginTop: 10,
-  },
-  criticalText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignSelf: "flex-start",
-    marginTop: 20,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  patientImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginLeft: 30,
-    marginTop: 20,
-  },
-});
 
 export default ResourceAllocationScreen;

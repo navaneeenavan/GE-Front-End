@@ -122,10 +122,10 @@ const MyPatients = () => {
     <>
     <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Patients" />
+        <Appbar.Content title="Paitents" />
       </Appbar.Header>
       <ScrollView
-        style={tw`bg-gray-200 pt-1 `}
+        style={tw`bg-gray-200 pt-5 px-0.5`}
         showsVerticalScrollIndicator={false}
         alwaysBounceVertical
       >
@@ -135,10 +135,10 @@ const MyPatients = () => {
           onChangeText={(query) => setSearchQuery(query)}
           style={{
             borderRadius: 10,
-            width: "92%",
-            marginHorizontal: 16,
-            margin: 10,
-            backgroundColor : 'white'
+            width: "95%",
+            marginHorizontal: 10,
+            marginBottom: 10,
+            
           }}
         />
 
@@ -179,21 +179,21 @@ const MyPatients = () => {
   function PatientsCard({ patient }: PatientsCardProps) {
     return (
       <View
-      style={tw` w-full bg-white rounded-xl shadow flex flex-cols h-auto`}
+      style={tw`px-1 w-full bg-white rounded-xl shadow flex flex-cols h-auto`}
+    >
+      <View
+        onPress={() => {
+          router.push({
+            pathname: "/Details",
+            params: patient,
+          });
+        }}
       >
-        <View
-          onPress={() => {
-            router.push({
-              pathname: "/Details",
-              params: patient,
-            });
-          }}
-        >
-           <View style={tw`flex flex-row justify-between p-5`}>
+       <View style={tw`flex flex-row justify-between p-5`}>
        <View
-            style={tw`flex bg-white border border-red-500 rounded-full py-1  w-20  px-1 items-center `} >
+            style={tw`flex bg-white border border-red-500 rounded-full py-1  w-20  px-3 `} >
             <Text style={tw`text-red-500 font-semibold`}>
-              {patient.criticality}
+              {patient.Criticality}
             </Text> 
         </View>
 
@@ -202,9 +202,9 @@ const MyPatients = () => {
         </View>
         </View> 
        
-        <View style={tw`mt-3 flex flex-row ` }>
+        <View style={tw`mt-10 flex flex-row ` }>
         <Image
-            source={{ uri: patient.imageUri }}
+            source={{ uri: patient.image_uri }}
             style={tw`w-14 h-14 rounded-full mx-5 mb-3`}
           />
           <View style={tw`flex flex-cols`}>
@@ -214,7 +214,7 @@ const MyPatients = () => {
             </Text>
             <View style={tw`flex flex-row`}>
             <Text style={tw`text-gray-700 mt-1`}>
-              {patient.age}  | Criticality Score : {patient.criticalityScore}
+              {patient.age}  | Criticality Score : {patient.CriticalityScore}
             </Text>
             </View>
             
@@ -222,15 +222,15 @@ const MyPatients = () => {
 
           <TouchableOpacity
                   style={tw`bg-blue-500 p-4  mx-[5%] rounded-full mb-10 ml-10  flex-row justify-center items-center gap-2`}
-                  onPress={() => router.push({pathname: "/Details", params: patient})}
+                  onPress={() => router.push({pathname: "/Diagnosis", params: patient})}
                 >
-                  <ArrowUpRightIcon
-                   size={20} color={"white"} />
+                  <ArrowUpRightIcon size={20} color={"white"} />
                 </TouchableOpacity>
           
         </View>
-        </View>
+        
       </View>
+    </View>
     );
   }
 };

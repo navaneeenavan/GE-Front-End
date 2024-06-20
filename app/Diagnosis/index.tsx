@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   ScrollView,
-  Button,
   Alert,
   TouchableOpacity,
 } from "react-native";
@@ -15,12 +13,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import axios from "axios";
 import { useGlobalSearchParams } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import tw from "twrnc";
 
 type FileInfo = DocumentPicker.DocumentPickerResult | null;
 
 const App = () => {
   const [file, setFile] = useState<FileInfo>(null);
   const navigation = useNavigation();
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -41,6 +42,7 @@ const App = () => {
       Alert.alert("An error occurred while uploading the file");
     }
   };
+
   const patient = useGlobalSearchParams();
 
   const upload_Document = async () => {
@@ -63,58 +65,61 @@ const App = () => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Diagnosis" />
       </Appbar.Header>
-      <ScrollView style={styles.container}>
+      <ScrollView style={tw`flex-1 pt-5 pb-7 px-4 bg-gray-200`}>
         {newFunction(patient)}
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Primary Diagnosis:</Text>
-          <Text style={styles.sectionContent}>Severe Sepsis</Text>
+        <View style={tw`mb-4 bg-white p-4 rounded-2xl gap-1`}>
+          <Text style={tw`text-lg font-semibold mb-1`}>Primary Diagnosis</Text>
+          <Text style={tw`text-base text-gray-600`}>Severe Sepsis</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Secondary Diagnoses:</Text>
-          <Text style={styles.sectionContent}>
+        <View style={tw`mb-4 bg-white p-4 rounded-2xl gap-1`}>
+          <Text style={tw`text-lg font-semibold mb-1`}>Secondary Diagnoses</Text>
+          <Text style={tw`text-base text-gray-600`}>
             Acute Respiratory Distress Syndrome (ARDS)
           </Text>
-          <Text style={styles.sectionContent}>
+          <Text style={tw`text-base text-gray-600`}>
             Hypotension (Low Blood Pressure)
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Previous Diagnoses:</Text>
-          <Text style={styles.sectionContent}>Type 1 Diabetes Mellitus</Text>
-          <Text style={styles.sectionContent}>
+        <View style={tw`mb-4 bg-white p-4 rounded-2xl gap-1`}>
+          <Text style={tw`text-lg font-semibold mb-1`}>Previous Diagnoses</Text>
+          <Text style={tw`text-base text-gray-600`}>Type 1 Diabetes Mellitus</Text>
+          <Text style={tw`text-base text-gray-600`}>
             Hypertension (High Blood Pressure)
           </Text>
-          <Text style={styles.sectionContent}>Obesity</Text>
+          <Text style={tw`text-base text-gray-600`}>Obesity</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Medications:</Text>
-          <Text style={styles.sectionContent}>
-            Insulin (for diabetes management)
+        <View style={tw`mb-4 bg-white p-4 rounded-2xl gap-1`}>
+          <Text style={tw`text-lg font-semibold mb-1`}>Medications</Text>
+          <Text style={tw`text-base text-gray-600`}>
+            Insulin (For diabetes management)
           </Text>
-          <Text style={styles.sectionContent}>
-            Lisinopril (for blood pressure control)
+          <Text style={tw`text-base text-gray-600`}>
+            Lisinopril (For blood pressure control)
           </Text>
-          <Text style={styles.sectionContent}>
-            Furosemide (for fluid retention)
+          <Text style={tw`text-base text-gray-600`}>
+            Furosemide (For fluid retention)
           </Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Vital Signs:</Text>
-          <Text style={styles.sectionContent}>Blood Pressure: 90/60 mmHg</Text>
-          <Text style={styles.sectionContent}>Heart Rate: 110 bpm</Text>
-          <Text style={styles.sectionContent}>Respiratory Rate: 24 bpm</Text>
-          <Text style={styles.sectionContent}>
+        <View style={tw`mb-4 bg-white p-4 rounded-2xl gap-1`}>
+          <Text style={tw`text-lg font-semibold mb-1`}>Vital Signs</Text>
+          <Text style={tw`text-base text-gray-600`}>Blood Pressure: 90/60 mmHg</Text>
+          <Text style={tw`text-base text-gray-600`}>Heart Rate: 110 bpm</Text>
+          <Text style={tw`text-base text-gray-600`}>Respiratory Rate: 24 bpm</Text>
+          <Text style={tw`text-base text-gray-600`}>
             Temperature: 38.5°C (101.3°F)
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={() => pickDocument()}>
-          <Text style={styles.buttonText}>Upload Lab Report</Text>
+        <TouchableOpacity
+          style={tw`bg-blue-500 p-4 w-[90%] mx-[5%] rounded-full mb-10 flex-row justify-center items-center gap-2`}
+          onPress={() => pickDocument()}
+        >
+          <Text style={tw`text-white text-lg font-semibold`}>Upload Lab Report</Text>
           <MaterialIcons name="upload-file" size={24} color="#fff" />
         </TouchableOpacity>
       </ScrollView>
@@ -122,114 +127,29 @@ const App = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    paddingBottom: 30,
-    paddingHorizontal: 16,
-    backgroundColor: "#f5f5f5",
-  },
-  header: {
-    backgroundColor: "#d0e8cf",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  headerText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  profileContainer: {
-    flexDirection: "row",
-    marginBottom: 16,
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginRight: 16,
-  },
-  profileDetails: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  details: {
-    fontSize: 14,
-    color: "#555",
-  },
-  criticalContainer: {
-    marginTop: 4,
-    backgroundColor: "#ff6b6b",
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    alignSelf: "flex-start",
-  },
-  criticalText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  section: {
-    marginBottom: 16,
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 8,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  sectionContent: {
-    fontSize: 14,
-    color: "#555",
-  },
-  button: {
-    backgroundColor: "#007bff",
-    padding: 16,
-    width: "90%",
-    marginLeft: "5%",
-    borderRadius: 25,
-    marginBottom: 40,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 8,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
-
 export default App;
+
 function newFunction(patient: any) {
   return (
-    <View style={styles.profileContainer}>
+    <View style={tw`flex-row mb-4 bg-white p-4 rounded-2xl items-center`}>
       <Image
         source={{ uri: "https://via.placeholder.com/80" }} // Replace with your image URL
-        style={styles.profileImage}
+        style={tw`w-20 h-20 rounded-full mr-4`}
       />
-      <View style={styles.profileDetails}>
-        <Text style={styles.name}>{patient.name}</Text>
-        <Text style={styles.details}>
-          Age: {patient.age} {patient.gender}
-        </Text>
-        <Text style={styles.details}>{patient.HealthCondition}</Text>
-        <View style={styles.criticalContainer}>
-          <Text style={styles.criticalText}>{patient.Criticality}</Text>
+      <View style={tw`flex-1`}>
+        <View style={tw`flex flex-row justify-between`} >
+        <Text style={tw`text-lg font-semibold`}>{patient.name}</Text>
+        <View style={tw`mt-1 border border-red-700  rounded-full px-2 py-1 self-start`}>
+          <Text style={tw`text-red-700 font-semibold`}>{patient.Criticality}</Text>
         </View>
-        <Text style={styles.details}>
+        </View>
+       
+        <Text style={tw`text-base text-gray-600`}>
+          Age: {patient.age}  |  {patient.gender}
+        </Text>
+        <Text style={tw`text-base text-gray-600`}>{patient.HealthCondition}</Text>
+        
+        <Text style={tw`text-base text-gray-600 font-bold`}>
           Criticality Score: {patient.CriticalityScore}
         </Text>
       </View>

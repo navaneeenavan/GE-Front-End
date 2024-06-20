@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { Searchbar } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { Appbar, Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { router } from "expo-router";
-
+import { ArrowUpRightIcon, EllipsisHorizontalCircleIcon } from "react-native-heroicons/outline";
 const Diagnosis = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
 
@@ -48,11 +49,16 @@ const Diagnosis = () => {
     },
     // Add more patient data as needed
   ];
-
+  const navigation = useNavigation();
   return (
     <>
+
+<Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content title="Diagnosis" />
+      </Appbar.Header>
       <ScrollView
-        style={tw`bg-[#F2F2F2] pt-[50] px-0.5`}
+        style={tw`bg-gray-200 pt-1 px-0.5`}
         showsVerticalScrollIndicator={false}
         alwaysBounceVertical
       >
@@ -62,9 +68,10 @@ const Diagnosis = () => {
           onChangeText={(query) => setSearchQuery(query)}
           style={{
             borderRadius: 10,
-            width: "95%",
-            marginHorizontal: 10,
-            marginBottom: 10,
+            width: "92%",
+            marginHorizontal: 16,
+            margin: 10,
+            backgroundColor : 'white'
           }}
         />
 
@@ -108,10 +115,11 @@ const Diagnosis = () => {
 
   function PatientsCard({ patient }: PatientsCardProps) {
     return (
-      <SafeAreaView
-        style={tw`pb-[10] pl-[10] pr-[10]  w-5/5 bg-[#FFF6F6] rounded-xl shadow`}
+      <>
+      <View
+        style={tw`px-1 w-full bg-white rounded-xl shadow flex flex-cols h-auto`}
       >
-        <TouchableOpacity
+        <View
           onPress={() => {
             router.push({
               pathname: "/Diagnosis",
@@ -119,33 +127,49 @@ const Diagnosis = () => {
             });
           }}
         >
-          <View style={tw`flex flex-row items-center mt-[-25]`}>
-            <Image
-              source={{ uri: patient.image_uri }}
-              style={tw`w-16 h-16 rounded-full`}
-            />
-            <View style={tw`ml-4 flex-1`}>
-              <Text style={tw`text-lg font-semibold text-black`}>
-                {patient.name}
-              </Text>
-              <Text style={tw`text-gray-700 mt-1`}>
-                Age: {patient.age} {patient.gender}
-              </Text>
-              <Text style={tw`text-gray-700`}>{patient.HealthCondition}</Text>
-              <Text style={tw`text-gray-700`}>
-                Criticality Score: {patient.CriticalityScore}
-              </Text>
-            </View>
-            <View
-              style={tw`bg-white border border-red-500 rounded-full px-3 py-1`}
-            >
+         <View style={tw`flex flex-row justify-between p-5`}>
+         <View
+              style={tw`flex bg-white border border-red-500 rounded-full py-1  w-20  px-3 `} >
               <Text style={tw`text-red-500 font-semibold`}>
                 {patient.Criticality}
-              </Text>
-            </View>
+              </Text> 
           </View>
-        </TouchableOpacity>
-      </SafeAreaView>
+
+          <View>
+            <EllipsisHorizontalCircleIcon/>
+          </View>
+          </View> 
+         
+          <View style={tw`mt-3 flex flex-row ` }>
+          <Image
+              source={{ uri: patient.image_uri }}
+              style={tw`w-14 h-14 rounded-full mx-5 mb-3`}
+            />
+            <View style={tw`flex flex-cols`}>
+            <Text style={tw`text-lg font-semibold text-black`}>
+                {patient.name}  {patient.gender === "Female" ? "♀" : "♂"
+                }
+              </Text>
+              <View style={tw`flex flex-row`}>
+              <Text style={tw`text-gray-700 mt-1`}>
+                {patient.age}  | Criticality Score : {patient.CriticalityScore}
+              </Text>
+              </View>
+              
+            </View>
+  
+            <TouchableOpacity
+                    style={tw`bg-blue-500 p-4  mx-[5%] rounded-full mb-10 ml-10  flex-row justify-center items-center gap-2`}
+                    onPress={() => router.push({pathname: "/Diagnosis", params: patient})}
+                  >
+                    <ArrowUpRightIcon size={20} color={"white"} />
+                  </TouchableOpacity>
+            
+          </View>
+          
+        </View>
+      </View>
+      </>
     );
   }
 };
@@ -153,3 +177,6 @@ const Diagnosis = () => {
 export default Diagnosis;
 
 const styles = StyleSheet.create({});
+
+
+

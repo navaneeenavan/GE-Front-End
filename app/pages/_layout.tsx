@@ -8,7 +8,7 @@ import Forum from "./Forum";
 import MyPatients from "./MyPatients";
 import Diagnosis from "./Diagnosis";
 import HomePage from "./HomePage";
-
+import tw from "twrnc";
 interface BottomTabParamList {
   Home: undefined;
   MyPatients: undefined;
@@ -25,6 +25,7 @@ import {
   BeakerIcon,
   RectangleStackIcon,
 } from "react-native-heroicons/outline";
+import { lightBlue100 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const Pageslayout = () => {
   return (
@@ -34,10 +35,12 @@ const Pageslayout = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 80,
-          borderRadius: 50,
-          top: -15,
+          borderRadius: 100,
+          top: -20,
+          left:1,
           width: "97.5%",
-          marginLeft: 5,
+          margin:5,
+          paddingTop:30
         },
         tabBarHideOnKeyboard: true,
       }}
@@ -50,7 +53,7 @@ const Pageslayout = () => {
             return (
               <View
                 style={{
-                  backgroundColor: focused ? "#b8dfb4" : "#E8EFEC",
+                  backgroundColor: focused ? "#3872F7" : "#E8EFEC",
                   width: 60,
                   height: 60,
                   borderRadius: 50,
@@ -58,7 +61,7 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <RectangleStackIcon size={34} color={color} />
+                <RectangleStackIcon size={24} color={focused ? "white" :"gray" }  />
               </View>
             );
           },
@@ -73,7 +76,7 @@ const Pageslayout = () => {
             return (
               <View
                 style={{
-                  backgroundColor: focused ? "#b8dfb4" : "#E8EFEC",
+                  backgroundColor: focused ? "#3872F7" : "#E8EFEC",
                   width: 60,
                   height: 60,
                   borderRadius: 50,
@@ -81,7 +84,7 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <UserGroupIcon size={34} color={color} />
+                <UserGroupIcon size={24} color={focused ? "white" :"gray" }  />
               </View>
             );
           },
@@ -95,7 +98,7 @@ const Pageslayout = () => {
             return (
               <View
                 style={{
-                  backgroundColor: focused ? "#b8dfb4" : "#E8EFEC",
+                  backgroundColor: focused ? "#3872F7" : "#E8EFEC",
                   width: 60,
                   height: 60,
                   borderRadius: 50,
@@ -103,7 +106,7 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <HomeIcon size={34} color={color} />
+                <HomeIcon size={24} color={focused ? "white" :"gray" } />
               </View>
             );
           },
@@ -117,7 +120,7 @@ const Pageslayout = () => {
             return (
               <View
                 style={{
-                  backgroundColor: focused ? "#b8dfb4" : "#E8EFEC",
+                  backgroundColor: focused ? "#3872F7" : "#E8EFEC",
                   width: 60,
                   height: 60,
                   borderRadius: 50,
@@ -125,7 +128,7 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <ChatBubbleBottomCenterTextIcon size={34} color={color} />
+                 <ChatBubbleBottomCenterTextIcon size={24} color={focused ? "white" :"gray" } />
               </View>
             );
           },
@@ -140,7 +143,7 @@ const Pageslayout = () => {
             return (
               <View
                 style={{
-                  backgroundColor: focused ? "#b8dfb4" : "#E8EFEC",
+                  backgroundColor: focused ? "#3872F7" : "#E8EFEC",
                   width: 60,
                   height: 60,
                   borderRadius: 50,
@@ -148,7 +151,7 @@ const Pageslayout = () => {
                   alignItems: "center",
                 }}
               >
-                <BeakerIcon size={34} color={color} />
+                <BeakerIcon size={24} color={focused ? "white" :"gray" }  />
               </View>
             );
           },

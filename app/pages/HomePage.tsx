@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Assuming you're using FontAwesome for the gear icon
 import { Card } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import tw from "twrnc";
 
 const AvailableResources = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,7 +23,6 @@ const AvailableResources = () => {
     { label: "Medications", value: 92 },
     { label: "ICU Rooms", value: 25 },
     { label: "Ventilators", value: 35 },
-    // Add more resources as needed
   ];
 
   const handleResourcePress = (resource: any) => {
@@ -48,240 +49,132 @@ const AvailableResources = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Available Resources</Text>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="cog" size={24} color="#fff" />
-        </TouchableOpacity>
-      </View>
-
-      <Card style={styles.card}>
-        <Card.Content>
-          <Text style={styles.cardHeader}>Current Patients</Text>
-          <View style={styles.row}>
-            <View style={styles.column}>
-              <Text style={styles.label}>Total</Text>
-              <Text style={styles.value}>82</Text>
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.label}>Emergency</Text>
-              <Text style={styles.value}>12</Text>
-            </View>
-          </View>
-        </Card.Content>
-      </Card>
-
-      <Card style={styles.card}>
-        <Card.Content>
-          <Text style={styles.cardHeader}>Upcoming Admissions</Text>
-          <View style={styles.row}>
-            <View style={styles.column}>
-              <Text style={styles.label}>Scheduled</Text>
-              <Text style={styles.value}>24</Text>
-            </View>
-            <View style={styles.column}>
-              <Text style={styles.label}>Emergency</Text>
-              <Text style={styles.value}>6</Text>
-            </View>
-          </View>
-        </Card.Content>
-      </Card>
-
-      <View style={styles.resourcesContainer}>
-        {resources.map((resource, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.resourceCard}
-            onPress={() => handleResourcePress(resource)}
-          >
-            <Text style={styles.resourceLabel}>{resource.label}</Text>
-            <Text style={styles.resourceValue}>{resource.value}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <TouchableOpacity style={styles.manageButton}>
-        <Text style={styles.manageButtonText}>Manage Resources</Text>
-      </TouchableOpacity>
-
-      {selectedResource && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <SafeAreaView style={tw`flex-1 bg-gray-200 p-2`}>
+        <View
+          style={tw`flex-row justify-between items-center bg-[#3872F7] p-4 rounded-xl`}
         >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>{selectedResource.label}</Text>
-              <Text style={styles.modalValue}>{selectedResource.value}</Text>
-              <View style={styles.buttonRow}>
+          <Text style={tw`text-white text-lg font-semibold`}>
+            Available Resources
+          </Text>
+          <TouchableOpacity style={tw`p-2`}>
+            <Icon name="cog" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
+        <Card style={tw`my-2 rounded-xl bg-white`}>
+          <Card.Content>
+            <Text style={tw`text-lg font-semibold mb-2`}>Current Patients</Text>
+            <View style={tw`flex-row justify-between px-10`}>
+              <View style={tw` flex items-center`}>
+                <Text style={tw`text-base text-gray-600`}>Total</Text>
+                <View style={tw`flex flex-row`}>
+                  <Text style={tw` text-black text-xl font-semibold`}>82 </Text>
+                  <Text style={tw` text-black text-xl font-semibold`}> / </Text>
+                  <Text style={tw` text-black text-lg `}> 120</Text>
+                </View>
+              </View>
+              <View style={tw` flex items-center`}>
+                <Text style={tw`text-base text-gray-600`}>Emergency</Text>
+                <View style={tw`flex flex-row`}>
+                  <Text style={tw` text-black text-xl font-semibold`}>12 </Text>
+                  <Text style={tw` text-black text-xl font-semibold`}> / </Text>
+                  <Text style={tw` text-black text-lg `}> 15</Text>
+                </View>
+              </View>
+            </View>
+          </Card.Content>
+        </Card>
+
+        <Card style={tw`my-2 rounded-xl bg-white`}>
+          <Card.Content>
+            <Text style={tw`text-lg font-semibold mb-2`}>Upcoming Admissions</Text>
+            <View style={tw`flex-row justify-between px-12`}>
+              <View style={tw` flex items-center`}>
+                <Text style={tw`text-base text-gray-600`}>Total</Text>
+                <View style={tw`flex flex-row`}>
+                  <Text style={tw` text-black text-xl font-semibold`}>12 </Text>
+                </View>
+              </View>
+              <View style={tw` flex items-center`}>
+                <Text style={tw`text-base text-gray-600`}>Emergency</Text>
+                <View style={tw`flex flex-row`}>
+                  <Text style={tw` text-black text-xl font-semibold`}>12 </Text>
+                </View>
+              </View>
+            </View>
+          </Card.Content>
+        </Card>
+
+        <View style={tw`flex-row flex-wrap justify-between mt-5 px-1`}>
+          {resources.map((resource, index) => (
+            <TouchableOpacity
+              key={index}
+              style={tw`w-5/12 bg-white p-5 rounded-xl mb-4 items-center `}
+              onPress={() => handleResourcePress(resource)}
+            >
+              <Text style={tw`text-base text-gray-600 mb-1`}>
+                {resource.label}
+              </Text>
+              <Text style={tw`text-xl font-semibold text-black`}>
+                {resource.value}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <TouchableOpacity
+          style={tw`bg-[#3872F7] rounded-md py-3 px-4 self-center mt-2`}
+        >
+          <Text style={tw`text-white font-semibold`}>Manage Resources</Text>
+        </TouchableOpacity>
+
+        {selectedResource && (
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View
+              style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}
+            >
+              <View style={tw`w-72 bg-white rounded-xl p-5 items-center`}>
+                <Text style={tw`text-lg font-semibold mb-2`}>
+                  {selectedResource.label}
+                </Text>
+                <Text style={tw`text-xl font-semibold text-black mb-5`}>
+                  {selectedResource.value}
+                </Text>
+                <View style={tw`flex-row justify-between w-32`}>
+                  <TouchableOpacity
+                    style={tw`bg-black rounded-md py-2 px-4 mx-1`}
+                    onPress={decrementValue}
+                  >
+                    <Text style={tw`text-white font-semibold text-lg`}>-</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={tw`bg-black rounded-md py-2 px-4 mx-1`}
+                    onPress={incrementValue}
+                  >
+                    <Text style={tw`text-white font-semibold text-lg`}>+</Text>
+                  </TouchableOpacity>
+                </View>
                 <TouchableOpacity
-                  style={styles.button}
-                  onPress={decrementValue}
+                  style={tw`bg-black rounded-md py-2 px-4 mt-5`}
+                  onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <Text style={styles.buttonText}>-</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={incrementValue}
-                >
-                  <Text style={styles.buttonText}>+</Text>
+                  <Text style={tw`text-white font-semibold`}>Close</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
             </View>
-          </View>
-        </Modal>
-      )}
-    </View>
+          </Modal>
+        )}
+      </SafeAreaView>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-    padding: 20,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#000",
-    padding: 15,
-    borderRadius: 10,
-  },
-  headerText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  iconButton: {
-    padding: 5,
-  },
-  card: {
-    marginVertical: 10,
-    borderRadius: 10,
-    backgroundColor: "#fff",
-  },
-  cardHeader: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  column: {
-    alignItems: "center",
-  },
-  label: {
-    fontSize: 16,
-    color: "#555",
-  },
-  value: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  resourcesContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginTop: 20,
-  },
-  resourceCard: {
-    width: "48%",
-    backgroundColor: "#e0e0e0",
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 15,
-    alignItems: "center",
-  },
-  resourceLabel: {
-    fontSize: 16,
-    color: "#555",
-    marginBottom: 5,
-  },
-  resourceValue: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  manageButton: {
-    backgroundColor: "#000",
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignSelf: "center",
-    marginTop: 20,
-  },
-  manageButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: 300,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  modalValue: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#000",
-    marginBottom: 20,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "60%",
-  },
-  button: {
-    backgroundColor: "#000",
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginHorizontal: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  closeButton: {
-    backgroundColor: "#000",
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  closeButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-});
 
 export default AvailableResources;
