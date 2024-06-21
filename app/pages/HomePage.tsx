@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Assuming you're using FontAwesome for the gear icon
-import { Card } from "react-native-paper";
+import { Appbar, Card } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
+import { useNavigation } from "expo-router";
 
 const AvailableResources = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -16,7 +17,7 @@ const AvailableResources = () => {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
     null
   );
-
+  const navigation = useNavigation();
   const resources: Resource[] = [
     { label: "Beds", value: 120, total: 150 },
     { label: "Equipment", value: 45, total: 120 },
@@ -50,15 +51,14 @@ const AvailableResources = () => {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <SafeAreaView style={tw`flex-1 bg-gray-200 p-2 h-full`}>
-        <View
-          style={tw`flex-row justify-between items-center bg-[#3872F7] p-4 rounded-xl`}
-        >
-          <Text style={tw`text-white text-lg font-semibold`}>
-            Available Resources
-          </Text>
-        </View>
+    <>
+     <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content title="Hospital Resource" />
+      </Appbar.Header>
+     <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical>
+      <SafeAreaView style={tw`flex-1 bg-gray-200  px-2 h-full`}>
+
 
         <Card style={tw`my-2 rounded-xl bg-white`}>
           <Card.Content>
@@ -123,6 +123,8 @@ const AvailableResources = () => {
         </View>
       </SafeAreaView>
     </ScrollView>
+    </>
+   
   );
 };
 
