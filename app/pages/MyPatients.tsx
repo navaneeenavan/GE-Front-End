@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -24,7 +24,6 @@ import {
   EllipsisHorizontalCircleIcon,
 } from "react-native-heroicons/outline";
 import App from "../Notifications";
-import axios from "axios";
 
 const patientsList = [
   {
@@ -130,19 +129,10 @@ const patientsList = [
 ];
 const MyPatients = () => {
   const [SearchQuery, setSearchQuery] = React.useState("");
-  const [users,setUsers] = React.useState([])
 
   const navigation = useNavigation();
-  useEffect(()=>{
-     axios.get("https://medisynth-backend.onrender.com/patients/all").then((res)=>{
-      setUsers(res.data)
-      console.log(res.data)
-     }).catch((error)=>{
-      console.log(error)
-     })
-  },[])
   return (
-  <>
+    <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Patients" />
@@ -150,7 +140,7 @@ const MyPatients = () => {
           onPress={() => {
             router.push("/SmartAssistant");
           }}
-        style={tw`mr-3`}>
+        >
           <BoltIcon size={24} color="black" />
         </TouchableOpacity>
       </Appbar.Header>
@@ -182,12 +172,12 @@ const MyPatients = () => {
             gap: 10,
           }}
         >
-          {users.map((patient) => (
+          {patientsList.map((patient) => (
             <PatientsCard key={patient.id} patient={patient} />
           ))}
         </View>
       </ScrollView>
-      </>
+    </>
   );
 
   interface Patient {
@@ -208,16 +198,14 @@ const MyPatients = () => {
 
   function PatientsCard({ patient }: PatientsCardProps) {
     const [dialogVisible, setDialogVisible] = React.useState(false);
-    
     const showDialog = () => setDialogVisible(true);
 
     const hideDialog = (patient: any) => {
       patientsList.splice(patientsList.indexOf(patient), 1);
       setDialogVisible(false);
     };
-    const criticality_score=  Math.round(patient.criticality_score)
+
     return (
-      
       <View
         style={tw` w-full bg-white rounded-xl shadow flex flex-cols h-auto`}
       >
@@ -226,13 +214,13 @@ const MyPatients = () => {
             style={tw`flex bg-white border border-red-500 rounded-full py-1  w-20  px-1 items-center `}
           >
             <Text style={tw`text-red-500 font-semibold`}>
-              {patient.criticality_level}
+              {patient.criticality}
             </Text>
           </View>
 
           <TouchableOpacity
             onPress={() => {
-              showDialog();
+              setDialogVisible(true);
             }}
           >
             <EllipsisHorizontalCircleIcon />
@@ -241,16 +229,16 @@ const MyPatients = () => {
 
         <View style={tw`mt-3 flex flex-row `}>
           <Image
-            source={{ uri: "https://via.placeholder.com/60" }}
+            source={{ uri: patient.imageUri }}
             style={tw`w-14 h-14 rounded-full mx-5 mb-3`}
           />
           <View style={tw`flex flex-cols`}>
             <Text style={tw`text-lg font-semibold text-black`}>
-              {patient.patient_info.name} {patient.patient_info.gender === "Female" ? "♀" : "♂"}
+              {patient.name} {patient.gender === "Female" ? "♀" : "♂"}
             </Text>
             <View style={tw`flex flex-row`}>
               <Text style={tw`text-gray-700 mt-1`}>
-                {patient.patient_info.age} | Criticality Score : {criticality_score}
+                {patient.age} | Criticality Score : {patient.criticalityScore}
               </Text>
             </View>
           </View>
@@ -264,7 +252,7 @@ const MyPatients = () => {
             <ArrowUpRightIcon size={20} color={"white"} />
           </TouchableOpacity>
         </View>
-        
+        <PaperProvider>
           <Dialog
             visible={dialogVisible}
             onDismiss={() => {
@@ -281,8 +269,8 @@ const MyPatients = () => {
               <Button onPress={hideDialog}>Delete</Button>
             </Dialog.Actions>
           </Dialog>
+        </PaperProvider>
       </View>
-
     );
   }
 };
