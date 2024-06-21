@@ -7,7 +7,14 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { Appbar, Searchbar } from "react-native-paper";
+import * as Paper from "react-native-paper";
+import {
+  Appbar,
+  Button,
+  Dialog,
+  PaperProvider,
+  Searchbar,
+} from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { router, useNavigation } from "expo-router";
@@ -18,110 +25,111 @@ import {
 } from "react-native-heroicons/outline";
 import App from "../Notifications";
 
+const patientsList = [
+  {
+    id: 1,
+    name: "Sarah Chang",
+    age: 39,
+    gender: "Female",
+    healthCondition: "Severe Sepsis",
+    criticalityScore: 9.4,
+    criticality: "Critical",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 2,
+    name: "John Doe",
+    age: 50,
+    gender: "Male",
+    healthCondition: "Heart Attack",
+    criticalityScore: 8.9,
+    criticality: "Critical",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 3,
+    name: "Jane Smith",
+    age: 45,
+    gender: "Female",
+    healthCondition: "Stroke",
+    criticalityScore: 7.5,
+    criticality: "High",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 4,
+    name: "Mark Johnson",
+    age: 60,
+    gender: "Male",
+    healthCondition: "Pneumonia",
+    criticalityScore: 6.8,
+    criticality: "Moderate",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 5,
+    name: "Emily Davis",
+    age: 30,
+    gender: "Female",
+    healthCondition: "COVID-19",
+    criticalityScore: 8.2,
+    criticality: "High",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 6,
+    name: "Michael Brown",
+    age: 55,
+    gender: "Male",
+    healthCondition: "Kidney Failure",
+    criticalityScore: 7.0,
+    criticality: "Moderate",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 7,
+    name: "Laura Wilson",
+    age: 28,
+    gender: "Female",
+    healthCondition: "Asthma",
+    criticalityScore: 5.5,
+    criticality: "Low",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 8,
+    name: "James Taylor",
+    age: 47,
+    gender: "Male",
+    healthCondition: "Diabetes",
+    criticalityScore: 6.3,
+    criticality: "Moderate",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 9,
+    name: "Linda Martinez",
+    age: 52,
+    gender: "Female",
+    healthCondition: "Hypertension",
+    criticalityScore: 6.1,
+    criticality: "Moderate",
+    imageUri: "https://via.placeholder.com/60",
+  },
+  {
+    id: 10,
+    name: "Robert Anderson",
+    age: 65,
+    gender: "Male",
+    healthCondition: "Alzheimer's Disease",
+    criticalityScore: 4.9,
+    criticality: "Low",
+    imageUri: "https://via.placeholder.com/60",
+  },
+];
 const MyPatients = () => {
   const [SearchQuery, setSearchQuery] = React.useState("");
-  const patientsList = [
-    {
-      id: 1,
-      name: "Sarah Chang",
-      age: 39,
-      gender: "Female",
-      healthCondition: "Severe Sepsis",
-      criticalityScore: 9.4,
-      criticality: "Critical",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      age: 50,
-      gender: "Male",
-      healthCondition: "Heart Attack",
-      criticalityScore: 8.9,
-      criticality: "Critical",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 3,
-      name: "Jane Smith",
-      age: 45,
-      gender: "Female",
-      healthCondition: "Stroke",
-      criticalityScore: 7.5,
-      criticality: "High",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 4,
-      name: "Mark Johnson",
-      age: 60,
-      gender: "Male",
-      healthCondition: "Pneumonia",
-      criticalityScore: 6.8,
-      criticality: "Moderate",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 5,
-      name: "Emily Davis",
-      age: 30,
-      gender: "Female",
-      healthCondition: "COVID-19",
-      criticalityScore: 8.2,
-      criticality: "High",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 6,
-      name: "Michael Brown",
-      age: 55,
-      gender: "Male",
-      healthCondition: "Kidney Failure",
-      criticalityScore: 7.0,
-      criticality: "Moderate",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 7,
-      name: "Laura Wilson",
-      age: 28,
-      gender: "Female",
-      healthCondition: "Asthma",
-      criticalityScore: 5.5,
-      criticality: "Low",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 8,
-      name: "James Taylor",
-      age: 47,
-      gender: "Male",
-      healthCondition: "Diabetes",
-      criticalityScore: 6.3,
-      criticality: "Moderate",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 9,
-      name: "Linda Martinez",
-      age: 52,
-      gender: "Female",
-      healthCondition: "Hypertension",
-      criticalityScore: 6.1,
-      criticality: "Moderate",
-      imageUri: "https://via.placeholder.com/60",
-    },
-    {
-      id: 10,
-      name: "Robert Anderson",
-      age: 65,
-      gender: "Male",
-      healthCondition: "Alzheimer's Disease",
-      criticalityScore: 4.9,
-      criticality: "Low",
-      imageUri: "https://via.placeholder.com/60",
-    },
-  ];
+
   const navigation = useNavigation();
   return (
     <>
@@ -189,58 +197,79 @@ const MyPatients = () => {
   }
 
   function PatientsCard({ patient }: PatientsCardProps) {
+    const [dialogVisible, setDialogVisible] = React.useState(false);
+    const showDialog = () => setDialogVisible(true);
+
+    const hideDialog = (patient: any) => {
+      patientsList.splice(patientsList.indexOf(patient), 1);
+      setDialogVisible(false);
+    };
+
     return (
       <View
         style={tw` w-full bg-white rounded-xl shadow flex flex-cols h-auto`}
       >
-        <TouchableOpacity
-          onPress={() => {
-            router.push({
-              pathname: "/Details",
-              params: patient,
-            });
-          }}
-        >
-          <View style={tw`flex flex-row justify-between p-5`}>
-            <View
-              style={tw`flex bg-white border border-red-500 rounded-full py-1  w-20  px-1 items-center `}
-            >
-              <Text style={tw`text-red-500 font-semibold`}>
-                {patient.criticality}
-              </Text>
-            </View>
+        <View style={tw`flex flex-row justify-between p-5`}>
+          <View
+            style={tw`flex bg-white border border-red-500 rounded-full py-1  w-20  px-1 items-center `}
+          >
+            <Text style={tw`text-red-500 font-semibold`}>
+              {patient.criticality}
+            </Text>
+          </View>
 
-            <View>
-              <EllipsisHorizontalCircleIcon />
+          <TouchableOpacity
+            onPress={() => {
+              setDialogVisible(true);
+            }}
+          >
+            <EllipsisHorizontalCircleIcon />
+          </TouchableOpacity>
+        </View>
+
+        <View style={tw`mt-3 flex flex-row `}>
+          <Image
+            source={{ uri: patient.imageUri }}
+            style={tw`w-14 h-14 rounded-full mx-5 mb-3`}
+          />
+          <View style={tw`flex flex-cols`}>
+            <Text style={tw`text-lg font-semibold text-black`}>
+              {patient.name} {patient.gender === "Female" ? "♀" : "♂"}
+            </Text>
+            <View style={tw`flex flex-row`}>
+              <Text style={tw`text-gray-700 mt-1`}>
+                {patient.age} | Criticality Score : {patient.criticalityScore}
+              </Text>
             </View>
           </View>
 
-          <View style={tw`mt-3 flex flex-row `}>
-            <Image
-              source={{ uri: patient.imageUri }}
-              style={tw`w-14 h-14 rounded-full mx-5 mb-3`}
-            />
-            <View style={tw`flex flex-cols`}>
-              <Text style={tw`text-lg font-semibold text-black`}>
-                {patient.name} {patient.gender === "Female" ? "♀" : "♂"}
-              </Text>
-              <View style={tw`flex flex-row`}>
-                <Text style={tw`text-gray-700 mt-1`}>
-                  {patient.age} | Criticality Score : {patient.criticalityScore}
-                </Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={tw`bg-blue-500 p-4  mx-[5%] rounded-full mb-10 ml-10  flex-row justify-center items-center gap-2`}
-              onPress={() =>
-                router.push({ pathname: "/Details", params: patient })
-              }
-            >
-              <ArrowUpRightIcon size={20} color={"white"} />
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={tw`bg-blue-500 p-4  mx-[5%] rounded-full mb-10 ml-10  flex-row justify-center items-center gap-2`}
+            onPress={() =>
+              router.push({ pathname: "/Details", params: patient })
+            }
+          >
+            <ArrowUpRightIcon size={20} color={"white"} />
+          </TouchableOpacity>
+        </View>
+        <PaperProvider>
+          <Dialog
+            visible={dialogVisible}
+            onDismiss={() => {
+              hideDialog(patient);
+            }}
+          >
+            <Dialog.Title>Alert</Dialog.Title>
+            <Dialog.Content>
+              <Paper.Text variant="bodyMedium">
+                Do you want to Remove this Patient
+              </Paper.Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={hideDialog}>Delete</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </PaperProvider>
       </View>
     );
   }
