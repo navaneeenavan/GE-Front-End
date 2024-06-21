@@ -60,7 +60,7 @@ const AvailableResources = () => {
         <TouchableOpacity
           onPress={() => {
             router.push("/SmartAssistant");
-          }}
+          }} style={tw`mr-3`}
         >
           <BoltIcon size={24} color="black" />
         </TouchableOpacity>
