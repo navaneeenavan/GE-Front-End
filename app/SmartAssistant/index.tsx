@@ -9,13 +9,8 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { Appbar } from "react-native-paper";
 import axios from "axios";
 import Markdown from "@ronradtke/react-native-markdown-display";
-import { useNavigation } from "@react-navigation/native";
-import { Header } from "react-native-elements";
-import { BoltIcon } from "react-native-heroicons/outline";
-import { router } from "expo-router";
 
 function extractPatientID(query: string) {
   // Define the regular expression to match "Patient ID:" followed by the ID
@@ -33,11 +28,6 @@ function extractPatientID(query: string) {
 }
 
 const SmartAssistantScreen = () => {
-  const navigation = useNavigation();
-  navigation.setOptions({
-    headerTitle: "Smart Assistant",
-  });
-
   const [messages, setMessages] = useState<{ sender: string; text: string }[]>(
     []
   );
@@ -105,29 +95,27 @@ const SmartAssistantScreen = () => {
   );
 
   return (
-    <>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={styles.container}
-      >
-        <FlatList
-          data={messages}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.chatContainer}
-          style={styles.chatList}
+    <KeyboardAvoidingView
+     
+      style={styles.container}
+    >
+      <FlatList
+        data={messages}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.chatContainer}
+        style={styles.chatList}
+      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          value={input}
+          onChangeText={setInput}
+          placeholder="Type a message"
         />
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.textInput}
-            value={input}
-            onChangeText={setInput}
-            placeholder="Type a message"
-          />
-          <Button title="Send" onPress={handleSend} />
-        </View>
-      </KeyboardAvoidingView>
-    </>
+        <Button title="Send" onPress={handleSend} />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -166,6 +154,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: "#ccc",
     alignItems: "center",
+    marginBottom: 20
   },
   textInput: {
     flex: 1,

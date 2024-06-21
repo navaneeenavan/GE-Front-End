@@ -215,7 +215,10 @@ const MyPatients = () => {
       patientsList.splice(patientsList.indexOf(patient), 1);
       setDialogVisible(false);
     };
-    const criticality_score=  Math.round(patient.criticality_score)
+    const roundToOneDecimal = (num) => Math.round(num * 10) / 10;
+
+    
+    const criticality_score = roundToOneDecimal(patient.criticality_score);
     return (
       
       <View
