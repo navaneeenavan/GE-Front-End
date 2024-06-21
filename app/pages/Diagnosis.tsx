@@ -124,6 +124,7 @@ const Diagnosis = () => {
     },
     // Add more patient data as needed
   ];
+  const [StatePatientsList, setStatePatientsList] = useState(patientsList);
   const navigation = useNavigation();
   return (
     <>
