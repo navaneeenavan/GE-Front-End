@@ -6,23 +6,25 @@ import { Icon } from "react-native-elements";
 import { router } from "expo-router";
 import { useRouter, useGlobalSearchParams } from "expo-router";
 import tw from "twrnc";
-
+import { PlusCircleIcon, XMarkIcon } from "react-native-heroicons/outline";
 const PatientCard = ({ patient }: { patient: any }) => {
   return (
     <View
       style={tw`w-11/12 bg-white p-5 rounded-lg shadow-md ml-5 mt-3 flex-row`}
     >
       <View>
-        <Text style={tw`text-xl font-bold mb-2`}>{patient.name}</Text>
+        <Text style={tw`text-xl font-semibold mb-2`}>{patient.name}</Text>
         <Text style={tw`text-lg mb-1`}>
-          Age: {patient.age} {patient.gender}
+          Age: {patient.age} | {patient.gender}
         </Text>
         <Text style={tw`text-lg mb-1`}>{patient.healthCondition}</Text>
         <Text style={tw`text-lg mb-1`}>
           Criticality Score: {patient.criticalityScore}
         </Text>
         <View style={tw`bg-red-500 rounded px-3 py-1 mt-2`}>
-          <Text style={tw`text-white font-bold`}>Critical</Text>
+          <Text style={tw`text-white font-semibold`}>
+            {patient.critcality_level}
+          </Text>
         </View>
         <TouchableOpacity
           style={tw`bg-black rounded px-5 py-2 mt-5`}
@@ -33,7 +35,7 @@ const PatientCard = ({ patient }: { patient: any }) => {
             })
           }
         >
-          <Text style={tw`text-white font-bold`}>Show Careplan</Text>
+          <Text style={tw`text-white font-semibold`}>Show Careplan</Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -49,15 +51,21 @@ const PatientCard = ({ patient }: { patient: any }) => {
 const EquipmentItem = ({ equipment }: { equipment: any }) => {
   return (
     <View
-      style={tw`flex-row items-center bg-white p-3 mb-2 rounded-lg border border-gray-300`}
+      style={tw`flex-row items-center bg-white p-3 mb-2 rounded-lg border border-gray-300 justify-between`}
     >
-      <Icon
-        name={equipment.icon}
-        type="font-awesome-5"
-        size={24}
-        style={tw`mr-4`}
-      />
-      <Text style={tw`text-lg`}>{equipment.name}</Text>
+      <View style={tw`flex flex-row`}>
+        <Icon
+          name={equipment.icon}
+          type="font-awesome-5"
+          size={24}
+          style={tw`mr-4`}
+        />
+        <Text style={tw`text-lg`}>{equipment.name}</Text>
+      </View>
+
+      <TouchableOpacity>
+        <XMarkIcon />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -65,17 +73,24 @@ const EquipmentItem = ({ equipment }: { equipment: any }) => {
 const StaffItem = ({ staff }: { staff: any }) => {
   return (
     <View
-      style={tw`flex-row items-center bg-white p-3 mb-2 rounded-lg border border-gray-300`}
+      style={tw`flex-row items-center bg-white p-2 mb-2 rounded-lg border border-gray-300 justify-between pr-10`}
     >
-      <Image
-        source={{ uri: staff.image }}
-        style={tw`w-12 h-12 rounded-full mr-4`}
-      />
-      <View style={tw`flex-1`}>
-        <Text style={tw`text-lg`}>
-          {staff.role}: {staff.name}
-        </Text>
-        <Text style={tw`text-sm text-gray-600`}>Staff ID: {staff.id}</Text>
+      <View style={tw`flex flex-row`}>
+        <Image
+          source={{ uri: staff.image }}
+          style={tw`w-12 h-12 rounded-full mr-4`}
+        />
+
+        <View style={tw`flex-1`}>
+          <Text style={tw`text-lg`}>
+            {staff.role}: {staff.name}
+          </Text>
+          <Text style={tw`text-sm text-gray-600`}>Staff ID: {staff.id}</Text>
+        </View>
+      </View>
+
+      <View>
+        <XMarkIcon />
       </View>
     </View>
   );
@@ -191,39 +206,40 @@ const ResourceAllocationScreen = () => {
       </Appbar.Header>
       <ScrollView
         style={tw`flex-1 bg-gray-100`}
-        contentContainerStyle={tw`py-2`}
+        contentContainerStyle={tw`py-2 `}
         showsVerticalScrollIndicator={false}
       >
         {patients.map((patient: any) => (
           <PatientCard key={patient.name} patient={patient} />
         ))}
-        <View style={tw`mx-4 my-2`}>
-          <Text style={tw`text-xl font-bold mb-2`}>Staffs</Text>
-          <IconButton
-            icon="pencil"
-            size={20}
-            style={tw`absolute right-0 top-0`}
-            onPress={() => {
-              /* Add edit action */
-            }}
-          />
+        <View style={tw`mx-3 my-2`}>
+          <Text style={tw`text-xl font-semibold mb-2`}>Staffs</Text>
+
           {staffs.map((staff) => (
             <StaffItem key={staff.id} staff={staff} />
           ))}
+          <View
+            style={tw`flex-row items-center bg-white p-2 mb-2 h-15 rounded-lg border border-gray-300 justify-center `}
+          >
+            <TouchableOpacity>
+              <PlusCircleIcon />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={tw`mx-4 my-2`}>
-          <Text style={tw`text-xl font-bold mb-2`}>Equipment</Text>
-          <IconButton
-            icon="pencil"
-            size={20}
-            style={tw`absolute right-0 top-0`}
-            onPress={() => {
-              /* Add edit action */
-            }}
-          />
+        <View style={tw`mx-3 my-2`}>
+          <Text style={tw`text-xl font-semibold mb-2`}>Equipment</Text>
+
           {equipment.map((item) => (
             <EquipmentItem key={item.name} equipment={item} />
           ))}
+
+          <View
+            style={tw`flex-row items-center bg-white p-2 mb-2 h-15 rounded-lg border border-gray-300 justify-center `}
+          >
+            <TouchableOpacity>
+              <PlusCircleIcon />
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </>
