@@ -25,7 +25,7 @@ import { router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 export default function TabLayout() {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={tw`flex-1 bg-[#F2F2F2] mt-5`}>
       <SafeAreaView style={tw`px-5`}>
@@ -41,7 +41,7 @@ export default function TabLayout() {
               </TouchableOpacity>
             </View>
             <View style={tw`flex flex-row gap-2`}>
-            <TouchableOpacity
+              <TouchableOpacity
                 style={tw`h-16 w-16 bg-white rounded-full justify-center items-center flex flex-row`}
                 onPress={() => {
                   router.push("/Notifications");
@@ -51,14 +51,14 @@ export default function TabLayout() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={tw`h-16 w-16 bg-white rounded-full justify-center items-center flex flex-row`}
+                onPress={() => {
+                  router.push("/Chatroom");
+                }}
               >
-                  <MaterialCommunityIcons
+                <MaterialCommunityIcons
                   name="chat"
                   size={30}
                   color={"#3774f2"}
-                  onPress={() => {
-                    router.push("/Chatroom");
-                  }}
                 />
               </TouchableOpacity>
             </View>
@@ -78,11 +78,14 @@ export default function TabLayout() {
 
           <View style={tw`px-2`}>
             <View style={tw`flex flex-row space-x-2 mt-3`}>
-              <TouchableOpacity style={tw`w-3/5 bg-white h-40 rounded-[50px] px-5`}  onPress={()=>{
-                  navigation.navigate("Layout2",{
-                    screen:"MyPatients"
-                  })
-                }}>
+              <TouchableOpacity
+                style={tw`w-3/5 bg-white h-40 rounded-[50px] px-5`}
+                onPress={() => {
+                  navigation.navigate("Layout2", {
+                    screen: "MyPatients",
+                  });
+                }}
+              >
                 <View style={tw`flex flex-row justify-between ml-36 mt-5`}>
                   <UsersIcon size={35} />
                 </View>
@@ -90,11 +93,14 @@ export default function TabLayout() {
                   My Patients
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={tw`w-2/5 bg-white h-40 rounded-[50px] ml-2`}  onPress={()=>{
-                  navigation.navigate("Layout2",{
-                    screen:"Forum"
-                  })
-                }}>
+              <TouchableOpacity
+                style={tw`w-2/5 bg-white h-40 rounded-[50px] ml-2`}
+                onPress={() => {
+                  navigation.navigate("Layout2", {
+                    screen: "Forum",
+                  });
+                }}
+              >
                 <View style={tw`mt-5 ml-5`}>
                   <CubeTransparentIcon size={35} />
                 </View>
@@ -107,10 +113,10 @@ export default function TabLayout() {
               >
                 <TouchableOpacity
                   style={tw`h-14 w-14 mt-7 ml-36 bg-white rounded-full flex justify-center items-center`}
-                  onPress={()=>{
-                    navigation.navigate("Layout2",{
-                      screen:"Schedule"
-                    })
+                  onPress={() => {
+                    navigation.navigate("Layout2", {
+                      screen: "Schedule",
+                    });
                   }}
                 >
                   <ArrowUpRightIcon size={35} />
@@ -133,7 +139,12 @@ export default function TabLayout() {
                 </View>
               </View>
               <View style={tw`flex flex-col w-full ml-2`}>
-                <TouchableOpacity style={tw`w-2/5 bg-white h-36 rounded-[50px] mt-6`} >
+                <TouchableOpacity
+                  style={tw`w-2/5 bg-white h-36 rounded-[50px] mt-6`}
+                  onPress={() => {
+                    router.push("/SmartAssistant");
+                  }}
+                >
                   <View style={tw`ml-5 mt-5`}>
                     <BoltIcon size={35} />
                   </View>
@@ -142,11 +153,14 @@ export default function TabLayout() {
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={tw`w-2/5 bg-white h-36 rounded-[50px] mt-3`} onPress={()=>{
-                  navigation.navigate("Layout2",{
-                    screen:"Diagnosis"
-                  })
-                }}>
+                <TouchableOpacity
+                  style={tw`w-2/5 bg-white h-36 rounded-[50px] mt-3`}
+                  onPress={() => {
+                    navigation.navigate("Layout2", {
+                      screen: "Diagnosis",
+                    });
+                  }}
+                >
                   <View style={tw`ml-6 mt-5 flex flex-row`}>
                     <PresentationChartBarIcon size={35} />
                   </View>

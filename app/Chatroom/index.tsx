@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,10 +10,25 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Searchbar } from "react-native-paper";
 import { router } from "expo-router";
+import { BoltIcon } from "react-native-heroicons/outline";
 
 const ChatRoomsScreen = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const navigation = useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Emergency Chatroom",
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/SmartAssistant");
+          }}
+        >
+          <BoltIcon size={24} color="black" />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
 
   const chatRoomsList = [
     {
@@ -83,35 +98,37 @@ const ChatRoomsScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Searchbar
-        placeholder="Search"
-        value={searchQuery}
-        onChangeText={(query) => setSearchQuery(query)}
-        style={styles.searchBar}
-      />
-      <FlatList
-        data={filteredChatRooms}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.chatRoomItem}
-            onPress={() => {
-              router.push({
-                pathname: "/Chatroom/ChatRoomDetailScreen",
-                params: item,
-              });
-            }}
-          >
-            <View style={styles.chatRoomInfo}>
-              <Text style={styles.chatRoomName}>{item.name}</Text>
-              <Text style={styles.lastMessage}>{item.lastMessage}</Text>
-            </View>
-            <Text style={styles.lastMessageTime}>{item.lastMessageTime}</Text>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
+    <>
+      <View style={styles.container}>
+        <Searchbar
+          placeholder="Search"
+          value={searchQuery}
+          onChangeText={(query) => setSearchQuery(query)}
+          style={styles.searchBar}
+        />
+        <FlatList
+          data={filteredChatRooms}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.chatRoomItem}
+              onPress={() => {
+                router.push({
+                  pathname: "/Chatroom/ChatRoomDetailScreen",
+                  params: item,
+                });
+              }}
+            >
+              <View style={styles.chatRoomInfo}>
+                <Text style={styles.chatRoomName}>{item.name}</Text>
+                <Text style={styles.lastMessage}>{item.lastMessage}</Text>
+              </View>
+              <Text style={styles.lastMessageTime}>{item.lastMessageTime}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    </>
   );
 };
 
@@ -124,6 +141,7 @@ const styles = StyleSheet.create({
   searchBar: {
     borderRadius: 10,
     marginBottom: 10,
+    backgroundColor: "white",
   },
   chatRoomItem: {
     flexDirection: "row",

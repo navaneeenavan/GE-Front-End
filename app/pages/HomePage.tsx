@@ -5,6 +5,8 @@ import { Appbar, Card } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { useNavigation } from "expo-router";
+import { router } from "expo-router";
+import { BoltIcon } from "react-native-heroicons/outline";
 
 const AvailableResources = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,79 +54,99 @@ const AvailableResources = () => {
 
   return (
     <>
-     <Appbar.Header>
+      <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Hospital Resource" />
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/SmartAssistant");
+          }}
+        >
+          <BoltIcon size={24} color="black" />
+        </TouchableOpacity>
       </Appbar.Header>
-     <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical>
-      <SafeAreaView style={tw`flex-1 bg-gray-200  px-2 h-full`}>
-
-
-        <Card style={tw`my-2 rounded-xl bg-white`}>
-          <Card.Content>
-            <Text style={tw`text-lg font-semibold mb-2`}>Current Patients</Text>
-            <View style={tw`flex-row justify-between px-10`}>
-              <View style={tw` flex items-center`}>
-                <Text style={tw`text-base text-gray-600`}>Total</Text>
-                <View style={tw`flex flex-row`}>
-                  <Text style={tw` text-black text-xl font-semibold`}>82 </Text>
-                  <Text style={tw` text-black text-xl font-semibold`}> / </Text>
-                  <Text style={tw` text-black text-lg `}> 120</Text>
-                </View>
-              </View>
-              <View style={tw` flex items-center`}>
-                <Text style={tw`text-base text-gray-600`}>Emergency</Text>
-                <View style={tw`flex flex-row`}>
-                  <Text style={tw` text-black text-xl font-semibold`}>12 </Text>
-                  <Text style={tw` text-black text-xl font-semibold`}> / </Text>
-                  <Text style={tw` text-black text-lg `}> 15</Text>
-                </View>
-              </View>
-            </View>
-          </Card.Content>
-        </Card>
-
-        <Card style={tw`my-2 rounded-xl bg-white`}>
-          <Card.Content>
-            <Text style={tw`text-lg font-semibold mb-2`}>
-              Upcoming Admissions
-            </Text>
-            <View style={tw`flex-row justify-between px-12`}>
-              <View style={tw` flex items-center`}>
-                <Text style={tw`text-base text-gray-600`}>Total</Text>
-                <View style={tw`flex flex-row`}>
-                  <Text style={tw` text-black text-xl font-semibold`}>12 </Text>
-                </View>
-              </View>
-              <View style={tw` flex items-center`}>
-                <Text style={tw`text-base text-gray-600`}>Emergency</Text>
-                <View style={tw`flex flex-row`}>
-                  <Text style={tw` text-black text-xl font-semibold`}>12 </Text>
-                </View>
-              </View>
-            </View>
-          </Card.Content>
-        </Card>
-
-        <View style={tw`flex-row flex-wrap justify-between mt-5 px-1`}>
-          {resources.map((resource, index) => (
-            <View
-              key={index}
-              style={tw`w-5/12 bg-white p-5 rounded-xl mb-4 items-center `}
-            >
-              <Text style={tw`text-base text-gray-600 mb-1`}>
-                {resource.label}
+      <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical>
+        <SafeAreaView style={tw`flex-1 bg-gray-200  px-2 h-full`}>
+          <Card style={tw`my-2 rounded-xl bg-white`}>
+            <Card.Content>
+              <Text style={tw`text-lg font-semibold mb-2`}>
+                Current Patients
               </Text>
-              <Text style={tw`text-xl font-semibold text-black`}>
-                {resource.value} / {resource.total}
+              <View style={tw`flex-row justify-between px-10`}>
+                <View style={tw` flex items-center`}>
+                  <Text style={tw`text-base text-gray-600`}>Total</Text>
+                  <View style={tw`flex flex-row`}>
+                    <Text style={tw` text-black text-xl font-semibold`}>
+                      82{" "}
+                    </Text>
+                    <Text style={tw` text-black text-xl font-semibold`}>
+                      {" "}
+                      /{" "}
+                    </Text>
+                    <Text style={tw` text-black text-lg `}> 120</Text>
+                  </View>
+                </View>
+                <View style={tw` flex items-center`}>
+                  <Text style={tw`text-base text-gray-600`}>Emergency</Text>
+                  <View style={tw`flex flex-row`}>
+                    <Text style={tw` text-black text-xl font-semibold`}>
+                      12{" "}
+                    </Text>
+                    <Text style={tw` text-black text-xl font-semibold`}>
+                      {" "}
+                      /{" "}
+                    </Text>
+                    <Text style={tw` text-black text-lg `}> 15</Text>
+                  </View>
+                </View>
+              </View>
+            </Card.Content>
+          </Card>
+
+          <Card style={tw`my-2 rounded-xl bg-white`}>
+            <Card.Content>
+              <Text style={tw`text-lg font-semibold mb-2`}>
+                Upcoming Admissions
               </Text>
-            </View>
-          ))}
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+              <View style={tw`flex-row justify-between px-12`}>
+                <View style={tw` flex items-center`}>
+                  <Text style={tw`text-base text-gray-600`}>Total</Text>
+                  <View style={tw`flex flex-row`}>
+                    <Text style={tw` text-black text-xl font-semibold`}>
+                      12{" "}
+                    </Text>
+                  </View>
+                </View>
+                <View style={tw` flex items-center`}>
+                  <Text style={tw`text-base text-gray-600`}>Emergency</Text>
+                  <View style={tw`flex flex-row`}>
+                    <Text style={tw` text-black text-xl font-semibold`}>
+                      12{" "}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </Card.Content>
+          </Card>
+
+          <View style={tw`flex-row flex-wrap justify-between mt-5 px-1`}>
+            {resources.map((resource, index) => (
+              <View
+                key={index}
+                style={tw`w-5/12 bg-white p-5 rounded-xl mb-4 items-center `}
+              >
+                <Text style={tw`text-base text-gray-600 mb-1`}>
+                  {resource.label}
+                </Text>
+                <Text style={tw`text-xl font-semibold text-black`}>
+                  {resource.value} / {resource.total}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </SafeAreaView>
+      </ScrollView>
     </>
-   
   );
 };
 

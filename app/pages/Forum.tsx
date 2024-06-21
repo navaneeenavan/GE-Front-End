@@ -2,9 +2,11 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { View, FlatList, Text, Image, TouchableOpacity } from "react-native";
 import { Header, Button } from "react-native-elements";
-import { Icon } from "react-native-paper";
+import { Appbar, Icon } from "react-native-paper";
 import tw from "twrnc";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+import { BoltIcon } from "react-native-heroicons/outline";
 
 const allTopics = [
   {
@@ -80,6 +82,7 @@ const mostRecentTopics = allTopics.sort(
 );
 
 const ForumScreen = () => {
+  const navigation = useNavigation();
   const [topics, setTopics] = useState(allTopics);
   const [activeTab, setActiveTab] = useState("Featured Topics");
 
@@ -95,77 +98,85 @@ const ForumScreen = () => {
   };
 
   return (
-    <View style={tw`flex-1 bg-gray-100`}>
-      <Header
-        centerComponent={{
-          text: "Forum",
-          style: tw`text-xl font-bold text-black`,
-        }}
-        containerStyle={tw`bg-white`}
-      />
-      <View style={tw`flex-row justify-around mb-2  bg-white py-5`}>
-        <Button
-          title="Featured Topics"
-          buttonStyle={
-            activeTab === "Featured Topics"
-              ? tw`bg-blue-500 rounded-full px-5`
-              : tw`bg-gray-200 rounded-full px-5`
-          }
-          titleStyle={
-            activeTab === "Featured Topics" ? tw`text-white` : tw`text-black`
-          }
-          onPress={() => handleTabPress("Featured Topics")}
-        />
-        <Button
-          title="Most Recent"
-          buttonStyle={
-            activeTab === "Most Recent"
-              ? tw`bg-blue-500 rounded-full px-5`
-              : tw`bg-gray-200 rounded-full px-5`
-          }
-          titleStyle={
-            activeTab === "Most Recent" ? tw`text-white` : tw`text-black`
-          }
-          onPress={() => handleTabPress("Most Recent")}
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content title="Forums" />
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/SmartAssistant");
+          }}
+        >
+          <BoltIcon size={24} color="black" />
+        </TouchableOpacity>
+      </Appbar.Header>
+      <View style={tw`flex-1 bg-gray-100`}>
+        <View style={tw`flex-row justify-around mb-2  bg-white py-5`}>
+          <Button
+            title="Featured Topics"
+            buttonStyle={
+              activeTab === "Featured Topics"
+                ? tw`bg-blue-500 rounded-full px-5`
+                : tw`bg-gray-200 rounded-full px-5`
+            }
+            titleStyle={
+              activeTab === "Featured Topics" ? tw`text-white` : tw`text-black`
+            }
+            onPress={() => handleTabPress("Featured Topics")}
+          />
+          <Button
+            title="Most Recent"
+            buttonStyle={
+              activeTab === "Most Recent"
+                ? tw`bg-blue-500 rounded-full px-5`
+                : tw`bg-gray-200 rounded-full px-5`
+            }
+            titleStyle={
+              activeTab === "Most Recent" ? tw`text-white` : tw`text-black`
+            }
+            onPress={() => handleTabPress("Most Recent")}
+          />
+        </View>
+        <FlatList
+          data={topics}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => {
+                router.push("/Forums");
+              }}
+            >
+              <View
+                style={tw` flex flex-col items-center bg-white p-3 my-1 mx-2 rounded-2xl mt-1`}
+              >
+                <Image
+                  source={{ uri: item.avatar }}
+                  style={tw`w-full h-72 rounded-t-3`}
+                />
+                <View style={tw`flex-1 `}>
+                  <Text style={tw`text-lg font-semibold`}>{item.title}</Text>
+                  <Text style={tw`text-gray-500`}>{item.author}</Text>
+                  <Text style={tw`text-black mt-1`}>{item.content}</Text>
+                  <View style={tw`flex flex-row justify-between mt-1`}>
+                    <Text style={tw`text-gray-500`}>
+                      {item.replies} Replies
+                    </Text>
+                    <Text style={tw`text-gray-500`}>{item.date}</Text>
+                  </View>
+                </View>
+                <TouchableOpacity style={tw`absolute right-5 bottom-20`}>
+                  <Icon
+                    source={item.liked ? "heart" : "heart-outline"}
+                    color={item.liked ? "red" : "gray"}
+                    size={30}
+                  />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          )}
         />
       </View>
-      <FlatList
-        data={topics}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => {
-              router.push("/Forums");
-            }}
-          >
-            <View
-              style={tw` flex flex-col items-center bg-white p-3 my-1 mx-2 rounded-2xl mt-1`}
-            >
-              <Image
-                source={{ uri: item.avatar }}
-                style={tw`w-full h-72 rounded-t-3`}
-              />
-              <View style={tw`flex-1 `}>
-                <Text style={tw`text-lg font-semibold`}>{item.title}</Text>
-                <Text style={tw`text-gray-500`}>{item.author}</Text>
-                <Text style={tw`text-black mt-1`}>{item.content}</Text>
-                <View style={tw`flex flex-row justify-between mt-1`}>
-                  <Text style={tw`text-gray-500`}>{item.replies} Replies</Text>
-                  <Text style={tw`text-gray-500`}>{item.date}</Text>
-                </View>
-              </View>
-              <TouchableOpacity style={tw`absolute right-5 bottom-20`}>
-                <Icon
-                  source={item.liked ? "heart" : "heart-outline"}
-                  color={item.liked ? "red" : "gray"}
-                  size={30}
-                />
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
+    </>
   );
 };
 

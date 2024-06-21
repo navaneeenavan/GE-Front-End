@@ -16,6 +16,7 @@ import tw from "twrnc";
 import { router } from "expo-router";
 import {
   ArrowUpRightIcon,
+  BoltIcon,
   EllipsisHorizontalCircleIcon,
 } from "react-native-heroicons/outline";
 import * as DocumentPicker from "expo-document-picker";
@@ -131,6 +132,13 @@ const Diagnosis = () => {
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Diagnosis" />
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/SmartAssistant");
+          }}
+        >
+          <BoltIcon size={24} color="black" />
+        </TouchableOpacity>
       </Appbar.Header>
       <ScrollView
         style={tw`bg-gray-200 pt-1 px-0.5`}

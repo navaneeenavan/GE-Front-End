@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Appbar } from "react-native-paper";
 import tw from "twrnc";
 import { ArrowUpRightIcon } from "react-native-heroicons/outline";
+import { router } from "expo-router";
+import { BoltIcon } from "react-native-heroicons/outline";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +22,7 @@ const appointments = [
       name: "Ahmed El Sayed",
       specialization: "Cardiologist, PhD, MD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "2",
@@ -37,7 +34,7 @@ const appointments = [
       name: "Sharif Allee",
       specialization: "Therapist, PhD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "3",
@@ -49,7 +46,7 @@ const appointments = [
       name: "Maria Gomez",
       specialization: "General Practitioner, MD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "4",
@@ -61,7 +58,7 @@ const appointments = [
       name: "John Smith",
       specialization: "Dentist, DDS",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "5",
@@ -73,7 +70,7 @@ const appointments = [
       name: "Lucy Brown",
       specialization: "Ophthalmologist, MD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "6",
@@ -85,7 +82,7 @@ const appointments = [
       name: "Kevin White",
       specialization: "Physical Therapist, DPT",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "7",
@@ -97,7 +94,7 @@ const appointments = [
       name: "Sophia Lee",
       specialization: "Dietitian, PhD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "8",
@@ -109,7 +106,7 @@ const appointments = [
       name: "Mohammed Ali",
       specialization: "Radiologist, MD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "9",
@@ -121,7 +118,7 @@ const appointments = [
       name: "Emily Davis",
       specialization: "Dermatologist, MD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
   {
     id: "10",
@@ -133,7 +130,7 @@ const appointments = [
       name: "James Wilson",
       specialization: "ENT Specialist, MD",
     },
-    est : "Next Week",
+    est: "Next Week",
   },
 ];
 
@@ -151,17 +148,24 @@ type Appointment = {
 
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => (
   <View style={tw`bg-white rounded-2xl p-4 mb-4 shadow gap-5`}>
-    <View style={tw`border border-[#3872F7] rounded-full p-3 w-25 item-center text-center  py-1 mb-3`}>
-      <Text style={tw`text-[#3872F7]`}>{appointment.est}</Text></View>
+    <View
+      style={tw`border border-[#3872F7] rounded-full p-3 w-25 item-center text-center  py-1 mb-3`}
+    >
+      <Text style={tw`text-[#3872F7]`}>{appointment.est}</Text>
+    </View>
     <Text style={tw`text-lg font-bold mb-2`}>{appointment.title}</Text>
     <View style={tw`flex-row items-center mb-2 gap-10`}>
       <View style={tw`flex flex-col`}>
-      <Text style={tw`text-xs text-gray-600 mr-4`}>DATE</Text>
-      <Text style={tw`text-base text-black mr-6 font-semibold text-2xl`}>{appointment.date}</Text>
+        <Text style={tw`text-xs text-gray-600 mr-4`}>DATE</Text>
+        <Text style={tw`text-base text-black mr-6 font-semibold text-2xl`}>
+          {appointment.date}
+        </Text>
       </View>
       <View style={tw`flex flex-col`}>
-      <Text style={tw`text-xs text-gray-600 mr-4`}>TIME</Text>
-      <Text style={tw`text-base text-black mr-6 font-semibold text-2xl`}>{appointment.time}</Text>
+        <Text style={tw`text-xs text-gray-600 mr-4`}>TIME</Text>
+        <Text style={tw`text-base text-black mr-6 font-semibold text-2xl`}>
+          {appointment.time}
+        </Text>
       </View>
     </View>
     <View style={tw`border border-gray-200 px-5`}></View>
@@ -169,16 +173,16 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => (
       <Ionicons name="person-circle" size={40} color="gray" />
       <View style={tw`flex-1 ml-4`}>
         <Text style={tw`text-base font-bold`}>{appointment.doctor.name}</Text>
-        <Text style={tw`text-xs text-gray-600`}>{appointment.doctor.specialization}</Text>
+        <Text style={tw`text-xs text-gray-600`}>
+          {appointment.doctor.specialization}
+        </Text>
       </View>
       <TouchableOpacity
-                    style={tw`bg-blue-500 p-4  mx-[5%] rounded-full  ml-10  flex-row justify-center items-center gap-2`}
-                    // onPress={() => router.push({pathname: "/Diagnosis", params: patient})}
-                  >
-                    <ArrowUpRightIcon size={20} color={"white"} />
-                  </TouchableOpacity>
-            
-
+        style={tw`bg-blue-500 p-4  mx-[5%] rounded-full  ml-10  flex-row justify-center items-center gap-2`}
+        // onPress={() => router.push({pathname: "/Diagnosis", params: patient})}
+      >
+        <ArrowUpRightIcon size={20} color={"white"} />
+      </TouchableOpacity>
     </View>
   </View>
 );
@@ -198,6 +202,13 @@ const HomeScreen = () => {
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Appointments" />
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/SmartAssistant");
+          }}
+        >
+          <BoltIcon size={24} color="black" />
+        </TouchableOpacity>
       </Appbar.Header>
       <View style={tw`flex-1 bg-gray-100`}>
         <View style={tw`flex-row justify-around py-2 bg-white`}>

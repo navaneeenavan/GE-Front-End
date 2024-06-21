@@ -13,8 +13,10 @@ import tw from "twrnc";
 import { router, useNavigation } from "expo-router";
 import {
   ArrowUpRightIcon,
+  BoltIcon,
   EllipsisHorizontalCircleIcon,
 } from "react-native-heroicons/outline";
+import App from "../Notifications";
 
 const MyPatients = () => {
   const [SearchQuery, setSearchQuery] = React.useState("");
@@ -126,6 +128,13 @@ const MyPatients = () => {
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Patients" />
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/SmartAssistant");
+          }}
+        >
+          <BoltIcon size={24} color="black" />
+        </TouchableOpacity>
       </Appbar.Header>
       <ScrollView
         style={tw`bg-gray-200 pt-1 `}
