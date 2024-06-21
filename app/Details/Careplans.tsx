@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import Markdown from "@ronradtke/react-native-markdown-display";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Card, Title, Paragraph, Appbar } from "react-native-paper";
 import { router, useGlobalSearchParams } from "expo-router";
-
+import axios from "axios";
 type CarePlan = {
   diagnosis: string;
   evaluation: string;
@@ -62,6 +62,12 @@ const CarePlanScreen = () => {
   const navigation = useNavigation();
   const [carePlan, setCarePlan] = useState<CarePlan>(initialCarePlan);
   const patientDetails = [useGlobalSearchParams()];
+  const fetch_user_careplan = async () => {
+    try {
+      axios.get("https://medisynth-backend.onrender.com/patients/78718/");
+    } catch (error) {}
+  };
+  useEffect(() => {}, []);
   const renderCarePlanCard = (title: string, content: string) => (
     <Card style={styles.card} key={title}>
       <Card.Content>
