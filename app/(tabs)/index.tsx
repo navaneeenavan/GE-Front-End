@@ -239,6 +239,9 @@ export default function TabOneScreen() {
                   width: "100%",
                   marginLeft: -127,
                 }}
+                onPress={() => {
+                  router.push("/SmartAssistant");
+                }}
               >
                 <View
                   style={{
