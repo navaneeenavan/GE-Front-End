@@ -10,6 +10,7 @@ const AvailableResources = () => {
   interface Resource {
     label: string;
     value: number;
+    total: number;
   }
 
   const [selectedResource, setSelectedResource] = useState<Resource | null>(
@@ -17,12 +18,12 @@ const AvailableResources = () => {
   );
 
   const resources: Resource[] = [
-    { label: "Beds", value: 120 },
-    { label: "Equipment", value: 45 },
-    { label: "Supplies", value: 78 },
-    { label: "Medications", value: 92 },
-    { label: "ICU Rooms", value: 25 },
-    { label: "Ventilators", value: 35 },
+    { label: "Beds", value: 120, total: 150 },
+    { label: "Equipment", value: 45, total: 120 },
+    { label: "Supplies", value: 78, total: 100 },
+    { label: "Medications", value: 92, total: 100 },
+    { label: "ICU Rooms", value: 25, total: 100 },
+    { label: "Ventilators", value: 35, total: 100 },
   ];
 
   const handleResourcePress = (resource: any) => {
@@ -50,16 +51,13 @@ const AvailableResources = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <SafeAreaView style={tw`flex-1 bg-gray-200 p-2`}>
+      <SafeAreaView style={tw`flex-1 bg-gray-200 p-2 h-full`}>
         <View
           style={tw`flex-row justify-between items-center bg-[#3872F7] p-4 rounded-xl`}
         >
           <Text style={tw`text-white text-lg font-semibold`}>
             Available Resources
           </Text>
-          <TouchableOpacity style={tw`p-2`}>
-            <Icon name="cog" size={24} color="#fff" />
-          </TouchableOpacity>
         </View>
 
         <Card style={tw`my-2 rounded-xl bg-white`}>
@@ -88,7 +86,9 @@ const AvailableResources = () => {
 
         <Card style={tw`my-2 rounded-xl bg-white`}>
           <Card.Content>
-            <Text style={tw`text-lg font-semibold mb-2`}>Upcoming Admissions</Text>
+            <Text style={tw`text-lg font-semibold mb-2`}>
+              Upcoming Admissions
+            </Text>
             <View style={tw`flex-row justify-between px-12`}>
               <View style={tw` flex items-center`}>
                 <Text style={tw`text-base text-gray-600`}>Total</Text>
@@ -108,70 +108,19 @@ const AvailableResources = () => {
 
         <View style={tw`flex-row flex-wrap justify-between mt-5 px-1`}>
           {resources.map((resource, index) => (
-            <TouchableOpacity
+            <View
               key={index}
               style={tw`w-5/12 bg-white p-5 rounded-xl mb-4 items-center `}
-              onPress={() => handleResourcePress(resource)}
             >
               <Text style={tw`text-base text-gray-600 mb-1`}>
                 {resource.label}
               </Text>
               <Text style={tw`text-xl font-semibold text-black`}>
-                {resource.value}
+                {resource.value} / {resource.total}
               </Text>
-            </TouchableOpacity>
+            </View>
           ))}
         </View>
-
-        <TouchableOpacity
-          style={tw`bg-[#3872F7] rounded-md py-3 px-4 self-center mt-2`}
-        >
-          <Text style={tw`text-white font-semibold`}>Manage Resources</Text>
-        </TouchableOpacity>
-
-        {selectedResource && (
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View
-              style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}
-            >
-              <View style={tw`w-72 bg-white rounded-xl p-5 items-center`}>
-                <Text style={tw`text-lg font-semibold mb-2`}>
-                  {selectedResource.label}
-                </Text>
-                <Text style={tw`text-xl font-semibold text-black mb-5`}>
-                  {selectedResource.value}
-                </Text>
-                <View style={tw`flex-row justify-between w-32`}>
-                  <TouchableOpacity
-                    style={tw`bg-black rounded-md py-2 px-4 mx-1`}
-                    onPress={decrementValue}
-                  >
-                    <Text style={tw`text-white font-semibold text-lg`}>-</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={tw`bg-black rounded-md py-2 px-4 mx-1`}
-                    onPress={incrementValue}
-                  >
-                    <Text style={tw`text-white font-semibold text-lg`}>+</Text>
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity
-                  style={tw`bg-black rounded-md py-2 px-4 mt-5`}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={tw`text-white font-semibold`}>Close</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-        )}
       </SafeAreaView>
     </ScrollView>
   );

@@ -1,295 +1,129 @@
-import { Text, View } from "@/components/Themed";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { Tabs } from "expo-router";
+import React from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+
+import HomeScreen from ".";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   ArrowUpRightIcon,
   BellAlertIcon,
+  BellIcon,
   BoltIcon,
   CalendarIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   CubeTransparentIcon,
   EllipsisHorizontalIcon,
+  PresentationChartBarIcon,
+  UserIcon,
   UsersIcon,
 } from "react-native-heroicons/outline";
 import tw from "twrnc";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { router } from "expo-router";
-
-type RootStackParamList = {
-  TabOneScreen: undefined;
-  Layout2: { screen: string };
-  ChatRoom: undefined;
-};
-
-type TabOneScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "TabOneScreen"
->;
-
-export default function TabOneScreen() {
-  const navigation = useNavigation<TabOneScreenNavigationProp>();
+export default function TabLayout() {
   return (
-    <View style={tw`flex-1 bg-[#F2F2F2] mt-5 mx-2`}>
-      <SafeAreaView style={tw`px-0.5`}>
+    <View style={tw`flex-1 bg-[#F2F2F2] mt-5`}>
+      <SafeAreaView style={tw`px-5`}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={tw`flex flex-row justify-between bg-[#f2f2f2] gap-1`}>
+          <View style={tw`flex flex-row justify-between`}>
             <View
               style={tw`h-16 w-56 bg-white rounded-full flex flex-row items-center`}
             >
               <View style={tw`h-16 w-16 border-1 rounded-full bg-black`} />
               <Text style={tw`text-black ml-4 text-md`}>Dr Henry Cavil</Text>
               <TouchableOpacity style={tw`text-black text-xl ml-3`}>
-                <ChevronDownIcon size={20} color={"#3774f2"} />
+                <ChevronDownIcon size={20} />
               </TouchableOpacity>
             </View>
-            <View style={tw`flex flex-row bg-[#f2f2f2] gap-1`}>
+            <View style={tw`flex flex-row space-x-2`}>
               <TouchableOpacity
                 style={tw`h-16 w-16 bg-white rounded-full justify-center items-center flex flex-row`}
-                onPress={() => {
-                  router.push("/Notifications");
-                }}
               >
-                <BellAlertIcon size={20} color={"#3774f2"} />
+                <BellAlertIcon size={30} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={tw`h-16 w-16 bg-white rounded-full justify-center items-center flex flex-row`}
               >
-                <MaterialCommunityIcons
-                  name="chat"
-                  size={30}
-                  color={"#3774f2"}
-                  onPress={() => {
-                    router.push("/Chatroom");
-                  }}
-                />
+                <EllipsisHorizontalIcon size={45} />
               </TouchableOpacity>
             </View>
           </View>
-          <Text style={tw`mt-10 text-5xl ml-7 text-[#000000]`}>
-            Hello Doctor !
-          </Text>
+          <Text style={tw`mt-10 text-5xl ml-2`}>Hello Doctor !</Text>
           <View
-            style={tw`flex w-11.5/12 h-20 rounded-l-full rounded-r-full bg-white mt-5 py-6  flex-row text-black justify-between ml-2`}
+            style={tw`flex w-full h-20 rounded-l-full rounded-r-full bg-white mt-5 py-6 flex-row text-black justify-between`}
           >
-            <Text style={tw`text-lg ml-7 text-black`}>Doctor ID</Text>
-            <View
-              style={tw`flex flex-row space-x-2 items-center ml-5 mr-5 bg-white justify-between`}
-            >
-              <Text style={tw`text-lg text-black`}>1234567890</Text>
+            <Text style={tw`text-lg ml-7`}>Doctor ID</Text>
+            <View style={tw`flex flex-row space-x-2 items-center ml-5 mr-5`}>
+              <Text style={tw`text-lg`}>#21</Text>
               <TouchableOpacity>
-                <ChevronRightIcon size={20} color={"#3774f2"} />
+                <ChevronRightIcon size={20} />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={tw`px-2 bg-[#f2f2f2]`}>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "#f2f2f2",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginTop: 20,
-              }}
-            >
-              <TouchableOpacity
-                style={{
-                  width: "100%",
-                  height: 200,
-                  borderRadius: 50,
-                  backgroundColor: "#f2f2f2",
-                  flexDirection: "column",
-                }}
-                onPress={() => {
-                  navigation.push("Layout2", { screen: "MyPatients" });
-                }}
-              >
-                <View style={tw`w-3/5 bg-white h-40 rounded-[50px] px-2`}>
-                  <View
-                    style={tw`flex flex-row justify-between ml-36 mt-5 bg-white`}
-                  >
-                    <UsersIcon size={35} color={"#3774f2"} />
-                  </View>
-                  <Text
-                    style={tw`text-lg mt-14 ml-3 font-semi-bold text-black`}
-                  >
-                    My Patients
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  width: "100%",
-                  height: 200,
-                  borderRadius: 50,
-                  backgroundColor: "#f2f2f2",
-                  flexDirection: "column",
-                  marginLeft: -120,
-                }}
-                onPress={() => {
-                  navigation.navigate("Layout2", { screen: "Forum" });
-                }}
-              >
-                <View style={tw`w-2/5 bg-white h-40 rounded-[50px]`}>
-                  <View style={tw`mt-5 ml-5 bg-white`}>
-                    <CubeTransparentIcon size={35} color={"#3774f2"} />
-                  </View>
 
-                  <Text
-                    style={tw`text-lg  mt-14 ml-7 font-semi-bold text-black`}
-                  >
-                    Forum
-                  </Text>
+          <View style={tw`px-2`}>
+            <View style={tw`flex flex-row space-x-2 mt-3`}>
+              <View style={tw`w-3/5 bg-white h-40 rounded-[50px] px-5`}>
+                <View style={tw`flex flex-row justify-between ml-36 mt-5`}>
+                  <UsersIcon size={35} />
                 </View>
-              </TouchableOpacity>
+                <Text style={tw`text-lg mt-14 ml-3 font-semi-bold`}>
+                  My Patients
+                </Text>
+              </View>
+              <View style={tw`w-2/5 bg-white h-40 rounded-[50px]`}>
+                <View style={tw`mt-5 ml-5`}>
+                  <CubeTransparentIcon size={35} />
+                </View>
+                <Text style={tw`text-lg mt-14 ml-7 font-semi-bold`}>Forum</Text>
+              </View>
             </View>
-
-            <View style={tw`flex flex-row bg-[#f2f2f2] mt-2 gap-2`}>
-              <TouchableOpacity
-                style={{
-                  width: "100%",
-                }}
-                onPress={() => {
-                  navigation.navigate("Layout2", { screen: "Schedule" });
-                }}
+            <View style={tw`flex flex-row`}>
+              <View
+                style={tw`w-3/5 h-80 rounded-[50px] mt-3 bg-[#3872F7] flex flex-col`}
               >
-                <View
-                  style={{
-                    width: "60%",
-                    height: 200,
-                    borderRadius: 50,
-                    marginTop: 5,
-                    backgroundColor: "#3872F7",
-                    flexDirection: "column",
-                  }}
+                <TouchableOpacity
+                  style={tw`h-14 w-14 mt-7 ml-36 bg-white rounded-full flex justify-center items-center`}
                 >
-                  <TouchableOpacity
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginHorizontal: 10,
-                      marginTop: 15,
-                      marginLeft: 140,
-                      backgroundColor: "white",
-                      height: 50,
-                      width: 50,
-                      borderRadius: 25,
-                    }}
-                  >
-                    <ArrowUpRightIcon size={35} color={"#3774f2"} />
-                  </TouchableOpacity>
+                  <ArrowUpRightIcon size={35} />
+                </TouchableOpacity>
+                <View style={tw`mt-20 px-5 flex flex-row justify-between`}>
+                  <CalendarIcon color={"white"} size={35} />
                   <View
-                    style={{
-                      justifyContent: "space-between",
-                      width: "100%",
-                      flexDirection: "row",
-                      padding: 15,
-                      backgroundColor: "#3872F7",
-                    }}
+                    style={tw`h-8 w-8 bg-red-500 rounded-full flex justify-center items-center`}
                   >
-                    <CalendarIcon size={35} color={"#ffffff"} />
-                    <View
-                      style={{
-                        backgroundColor: "red",
-                        height: 30,
-                        width: 30,
-                        borderRadius: 15,
-                        marginRight: 10,
-                        marginTop: 10,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: 20,
-                        }}
-                      >
-                        7
-                      </Text>
-                    </View>
+                    <Text style={tw`text-white`}>7</Text>
                   </View>
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 20,
-                      marginLeft: 13,
-                      marginTop: -12,
-                    }}
-                  >
+                </View>
+                <View style={tw`px-5 mt-5`}>
+                  <Text style={tw`text-white text-xl font-bold`}>
                     Schedules
                   </Text>
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 12.5,
-                      marginLeft: 16,
-                    }}
-                  >
-                    There are few pending Appointments
+                  <Text style={tw`text-white text-md mt-1`}>
+                    Medical Appointments that are pending
                   </Text>
                 </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  width: "100%",
-                  marginLeft: -127,
-                }}
-                onPress={() => {
-                  router.push("/SmartAssistant");
-                }}
-              >
-                <View
-                  style={{
-                    width: "40%",
-                    height: 200,
-                    borderRadius: 50,
-
-                    backgroundColor: "#f2f2f2",
-                    flexDirection: "column",
-                  }}
-                >
-                  <View
-                    style={{
-                      height: 175,
-                      width: "100%",
-                      backgroundColor: "white",
-                      borderRadius: 50,
-                      marginTop: 7.5,
-                      padding: 20,
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <View
-                      style={{
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        backgroundColor: "white",
-                        marginLeft: 5,
-                        borderRadius: 50,
-                      }}
-                    >
-                      <BoltIcon size={35} color={"#3774f2"} />
-                    </View>
-                    <Text
-                      style={{
-                        color: "black",
-                        fontSize: 18,
-                        marginLeft: 10,
-                        marginTop: -20,
-                        fontFamily: "sans-serif",
-                      }}
-                    >
-                      Assistant
-                    </Text>
+              </View>
+              <View style={tw`flex flex-col w-full ml-2`}>
+                <View style={tw`w-2/5 bg-white h-36 rounded-[50px] mt-3`}>
+                  <View style={tw`ml-5 mt-5`}>
+                    <BoltIcon size={35} />
                   </View>
+                  <Text style={tw`text-lg mt-12 ml-7 font-semi-bold`}>
+                    Assistant
+                  </Text>
                 </View>
-              </TouchableOpacity>
+                <View style={tw`w-2/5 bg-white h-36 rounded-[50px] mt-3`}>
+                  <View style={tw`ml-6 mt-5 flex flex-row`}>
+                    <PresentationChartBarIcon size={35} />
+                  </View>
+                  <Text style={tw`text-lg mt-12 ml-7 font-semi-bold`}>
+                    Diagnosis
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
         </ScrollView>
