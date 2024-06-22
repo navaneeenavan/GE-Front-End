@@ -109,9 +109,8 @@ const ChatRoomDetailScreen = () => {
           contentContainerStyle={styles.flatListContent}
         />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.inputContainer}
-          keyboardVerticalOffset={80}
+
         >
           <TextInput
             style={styles.input}
@@ -182,9 +181,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
+    paddingBottom : 20,
     borderTopWidth: 1,
     borderTopColor: "#ddd",
     backgroundColor: "white",
+    marginBottom: 8
   },
   input: {
     flex: 1,

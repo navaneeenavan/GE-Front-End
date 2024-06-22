@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View,Image } from "react-native";
 
 import HomeScreen from ".";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -34,7 +34,7 @@ export default function TabLayout() {
             <View
               style={tw`h-16 w-56 bg-white rounded-full flex flex-row items-center`}
             >
-              <View style={tw`h-16 w-16 border-1 rounded-full bg-black`} />
+              <Image source={{uri:"https://bleedingcool.com/wp-content/uploads/2019/09/benedict-cumberbatch-1200x900.jpg"}} style={tw`h-16 w-16 border-1 rounded-full bg-black`} />
               <Text style={tw`text-black ml-4 text-md`}>Dr Henry Cavil</Text>
               <TouchableOpacity style={tw`text-black text-xl ml-3`}>
                 <ChevronDownIcon size={20} />
